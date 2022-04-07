@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./static/css/index.css">
+    <link rel="icon" href="./static/img/time.png" type="image/x-icon">
+    <title>NFT Main</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <ol>
+            <li><a href="{{url_for('index')}}">Home</a></li>
+            <li><a href="" id="active">Application</a></li>
+            <li><a href="{{url_for('logout')}}">Logout</a></li>
+        </ol>
+    </div>
+    <h1>Welcome, {{user.username}}</h1>
+    <p>You are in user area!</p>
+
+    <!-- this <a> tag below is used to credit the icon owner -->
+    <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
+        Calendar icons created by Freepik - Flaticon
+    </a>
+</body>
+
+</html>
