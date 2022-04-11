@@ -36,9 +36,12 @@
 
     </form>
 
-    <div id="img-holder">
+    <div class="img-holder">
         {% for image in images %}
-        <img src="data:image/jpg;base64,{{image}}">
+        <div>
+            <img src="data:image/jpg;base64,{{image}}">
+            <p>Owner: {{user.username}}</p>
+        </div>
         {%endfor%}
     </div>
 </body>
