@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@400;700&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: 'Mukta', sans-serif;
@@ -8,50 +8,63 @@
     border: black 1px solid;
 }
 
-.error-msg{
+.error-msg {
     color: red;
 }
 
-.navbar{
+.navbar {
     width: 100%;
     background-color: #E8E5DA;
-    height: fit-content;    
+    height: fit-content;
 }
 
-#active{
+#active {
     background-color: #CDC392;
 }
 
-ol{
+ol {
     list-style-type: none;
     display: flex;
     flex-wrap: wrap;
     margin: 0;
 }
 
-li > a{
+li>a {
     text-decoration: none;
     color: black;
     padding: 0px 20px;
     background-color: #E8E5DA;
 }
 
-li > a{
+li>a {
     font-size: 24px;
     font-weight: 700;
 }
 
-li > a:hover{
+li>a:hover {
     transition: all 0.2s;
     opacity: 0.7;
 }
 
-a{
+a {
     text-decoration: none;
     color: black;
 }
 
-a:hover{
+a:hover {
     transition: all 0.2;
     color: #648DE5;
+}
+
+.img-holder {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img {
+    max-width: 450px;
+}
+
+input[type='file'] {
+    /* background-color: #648DE5; */
 }

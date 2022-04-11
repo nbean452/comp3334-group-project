@@ -21,6 +21,11 @@
     </div>
     <h1>Welcome to NFT!</h1>
     <p>Track on NFT trading</p>
+    <div id="img-holder">
+        {% for image in images %}
+        <img src="data:image/jpg;base64,{{image}}">
+        {%endfor%}
+    </div>
 </body>
 
 </html>

@@ -25,6 +25,22 @@
     <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
         Calendar icons created by Freepik - Flaticon
     </a>
+
+    <form action="/main/upload" enctype="multipart/form-data" method="POST">
+
+        <label for="picname">Picture Name</label>
+        <input type="text" name="picname" placeholder="please enter a name here...">
+        <input type="file" name="pic" accept="image/png, image/jpeg">
+        <br>
+        <input type="submit" value="upload a file">
+
+    </form>
+
+    <div id="img-holder">
+        {% for image in images %}
+        <img src="data:image/jpg;base64,{{image}}">
+        {%endfor%}
+    </div>
 </body>
 
 </html>
