@@ -61,34 +61,39 @@ a:hover {
     flex-wrap: wrap;
 }
 
+.images-holder>* {
+    padding: 5px 0px 5px 0px;
+}
+
 img {
-    max-width: 500px;
+    max-height: 300px;
 }
 
 .img-holder {
     background-color: rgba(74, 85, 183, 0.5);
     padding: 10px;
     backdrop-filter: blur(10px);
-    max-width: 50%;
+    width: 100%;
+    display: flex;
 }
 
 .desc-holder {
     display: flex;
     flex-wrap: wrap;
+
 }
 
 .desc-holder>p {
-    padding: 0 10px 0 10px;
-}
-
-.flex {
-    display: flex;
-}
-
-.flex>* {
-    padding: 0px 10px 0 10px;
+    width: 100%;
+    height: fit-content;
+    /* padding-left: 20px; */
 }
 
 table {
     border-collapse: collapse;
+}
+
+.colored {
+    background-color: rgba(74, 85, 183, 0.5);
+    margin-bottom: 30px;
 }

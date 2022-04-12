@@ -38,9 +38,11 @@
             <p>No transactions yet!</p>
             {%endif%}
             {%for info in transaction_info%}
-            <div>
-                <p>seller: {{info[0].username}} buyer: {{info[1].username}} price: {{info[2]}} date:
-                    {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
+            <div class="colored">
+                <p>seller: {{info[0].username}}</p>
+                <p>buyer: {{info[1].username}}</p>
+                <p>price: {{info[2]}}</p>
+                <p>date:{{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
             </div>
             {%endfor%}
         </div>

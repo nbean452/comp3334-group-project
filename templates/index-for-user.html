@@ -26,10 +26,10 @@
         <div class="img-holder">
             <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}"></a>
             <div class="desc-holder">
-                <p class="art-desc">Owned by: {{art_data[i].owner[0].username}}</p>
-                <p class="art-desc">{{art_data[i].name}}</p>
-                <p class="art-desc">created on: {{art_data[i].creationdate.strftime("%b %d, %Y")}}</p>
-                <p class="art-desc">price: ${{art_data[i].price}}</p>
+                <p>Owned by: {{art_data[i].owner[0].username}}</p>
+                <p>{{art_data[i].name}}</p>
+                <p>created on: {{art_data[i].creationdate.strftime("%b %d, %Y")}}</p>
+                <p>price: ${{art_data[i].price}}</p>
                 {%if art_data[i].owner[0].id == current_user.id %}
                 <a role="link" aria-disabled="true">Buy</a>
                 {%else%}

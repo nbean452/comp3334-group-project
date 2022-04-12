@@ -81,6 +81,8 @@ class Transaction(db.Model):
     seller_id = db.Column(db.Integer)
     buyer_id = db.Column(db.Integer)
 
+    price = db.Column(db.Integer, default=0, nullable=False)
+
     # users = db.relationship("User", backref='transactions', lazy='dynamic')
 
 
@@ -219,7 +221,7 @@ def buy(art_id):
     art.creator[0].balance += commision
 
     new_transc = Transaction(
-        art=art, seller_id=art.owner[0].id, buyer_id=current_user.id)
+        art=art, seller_id=art.owner[0].id, buyer_id=current_user.id, price=art.price)
 
     # art.transactions.append(new_transc)
 
@@ -307,7 +309,7 @@ def transactions(art_id):
         inner_array.append(user)
         user = User.query.filter_by(id=transaction.buyer_id).first()
         inner_array.append(user)
-        inner_array.append(transaction.art.price)
+        inner_array.append(transaction.price)
         inner_array.append(transaction.date)
         outer_array.append(inner_array)
 
