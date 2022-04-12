@@ -7,14 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
-    <title>NFT Main</title>
+    <title>{{current_user.username}}'s page</title>
 </head>
 
 <body>
     <div class="navbar">
         <ol>
             <li><a href="{{url_for('index')}}">Home</a></li>
-            <li><a href="" id="active">Application</a></li>
+            <li><a role="link" aria-disabled="true" id="active">Profile</a></li>
             <li><a href="{{url_for('logout')}}">Logout</a></li>
         </ol>
     </div>

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
-    <title>Past Transactions</title>
+    <title>{{art_data.name}} Details</title>
 </head>
 
 <body>
@@ -18,7 +18,7 @@
             <li><a href="{{url_for('register')}}">Register</a></li>
         </ol>
     </div>
-    <h1>Art Name</h1>
+    <h1>Need4Token {{art_data.name}}</h1>
     <div>
         <div class="img-holder">
             <img src="data:image/jpg;base64,{{image}}">
@@ -42,7 +42,7 @@
                 <p>seller: {{info[0].username}}</p>
                 <p>buyer: {{info[1].username}}</p>
                 <p>price: {{info[2]}}</p>
-                <p>date:{{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
+                <p>date: {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
             </div>
             {%endfor%}
         </div>

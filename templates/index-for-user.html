@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/img/time.png" type="image/x-icon">
-    <title>NFT Index</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="icon" href="/static/img/time.png" type="image/x-icon">
+    <title>Need4Token Index</title>
 </head>
 
 <body>
     <div class="navbar">
         <ol>
             <li><a href="" id="active">Home</a></li>
-            <li><a href="{{url_for('main')}}">Application</a></li>
+            <li><a href="{{url_for('main')}}">Profile</a></li>
             <li><a href="{{url_for('logout')}}">Logout</a></li>
         </ol>
     </div>
-    <h1>Welcome to NFT! {{current_user.username}}</h1>
+    <h1>Welcome to Need4Token! {{current_user.username}}</h1>
     <p>Track on NFT trading</p>
     <p>Balance: ${{current_user.balance}}</p>
     <div class="images-holder">

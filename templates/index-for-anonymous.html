@@ -7,22 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/index.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
-    <title>NFT Index</title>
+    <title>Need4Token Index</title>
 </head>
 
 <body>
     <div class="navbar">
         <ol>
-            <li><a href="" id="active">Home</a></li>
-            <li><a href="{{url_for('main')}}">Application</a></li>
+            <li><a role="link" aria-disabled="true" id="active">Home</a></li>
             <li><a href="{{url_for('login')}}">Login</a></li>
             <li><a href="{{url_for('register')}}">Register</a></li>
         </ol>
     </div>
-    <h1>Welcome to NFT!</h1>
+    <h1>Welcome to Need4Token!</h1>
     <p>Track on NFT trading</p>
     <div class="images-holder">
-        {% for i in range(0, 0) %}
+        {% for i in range(0, length) %}
         <div class="img-holder">
             <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}"></a>
             <div class="desc-holder">
