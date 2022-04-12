@@ -13,6 +13,8 @@ from flask import Flask, request, Response
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm import relationship
 import base64
+# from flaskblog import db, login_manager, app, mail
+# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -54,6 +56,8 @@ class User(db.Model, UserMixin):
     created_arts = db.relationship(
         'Art', secondary=users_created_arts, backref='creator')
 
+    transaction_id = db.Column(db.Integer, db.ForeignKey('transaction.id'))
+
     # owned_arts = db.relationship("Art", backref="owner")
     # created_arts = db.relationship("Art", backref="creator")
 
@@ -62,12 +66,27 @@ class Art(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Text, nullable=False)
     img = db.Column(db.Text, nullable=False, unique=True)
-    creationdate = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    creationdate = db.Column(db.DateTime, nullable=False,
+                             default=datetime.now)
     mimetype = db.Column(db.Text, nullable=False)
     price = db.Column(db.Integer, default=0)
 
+    transactions = db.relationship("Transaction", backref='art')
+
+    # transc = db.relationship(
+    #     'Art', secondary=transactions, backref='transaction')
+
     # creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     # owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, nullable=False,
+                     default=datetime.now)
+    art_id = db.Column(db.Integer, db.ForeignKey('art.id'))
+
+    users = db.relationship("User", backref='transaction')
 
 
 class RegisterForm(FlaskForm):
@@ -94,7 +113,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-@app.route('/')
+@ app.route('/')
 def index():
 
     images = Art.query.all()
@@ -116,7 +135,7 @@ def index():
     return render_template('index-for-anonymous.html', images=return_images, art_data=art_data, length=len(art_data))
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@ app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
 
@@ -138,14 +157,14 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/logout', methods=['GET', 'POST'])
-@login_required
+@ app.route('/logout', methods=['GET', 'POST'])
+@ login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@ app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
 
@@ -163,8 +182,8 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route('/main')
-@login_required
+@ app.route('/main')
+@ login_required
 def main():
 
     user = User.query.filter_by(username=current_user.username).first()
@@ -181,8 +200,8 @@ def main():
     return render_template('main.html', user=user, images=return_images, length=user_arts_num)
 
 
-@app.route('/buy/<int:art_id>')
-@login_required
+@ app.route('/buy/<int:art_id>')
+@ login_required
 def buy(art_id):
 
     art = Art.query.filter_by(id=art_id).first()
@@ -204,15 +223,19 @@ def buy(art_id):
     # art creator gets 5% of the full price which is the comission
     art.creator[0].balance += commision
 
+    new_transc = Transaction(art=art, users=[art.owner[0], current_user])
+    # art.transactions.append(new_transc)
+
     # transfer ownership to current user!
     art.owner[0] = current_user
 
+    db.session.add(new_transc)
     db.session.commit()
     return redirect(url_for('index'))
 
 
-@app.route('/edit-art/<int:art_id>', methods=['POST'])
-@login_required
+@ app.route('/edit-art/<int:art_id>', methods=['POST'])
+@ login_required
 def edit_art(art_id):
     picname = request.form.get('picname')
     price = request.form.get('price')
@@ -225,8 +248,8 @@ def edit_art(art_id):
     return redirect(url_for('main'))
 
 
-@app.route('/main/upload', methods=['POST'])
-@login_required
+@ app.route('/main/upload', methods=['POST'])
+@ login_required
 def upload():
     pic = request.files['pic']
     if not pic:
@@ -245,17 +268,17 @@ def upload():
 
     art = Art(img=pic.read(), name=picname, mimetype=mimetype, price=price)
     db.session.add(art)
-
     user = User.query.filter_by(id=current_user.id).first()
     user.owned_arts.append(art)
     user.created_arts.append(art)
+
     db.session.commit()
 
     return redirect((url_for('main')))
 
 
-@app.route('/topup', methods=['POST'])
-@login_required
+@ app.route('/topup', methods=['POST'])
+@ login_required
 def topup():
     amount = int(request.form.get('topup-amount'))
     user = User.query.filter_by(id=current_user.id).first()
@@ -274,10 +297,13 @@ def generate_users():
     db.session.commit()
 
 
-@app.route('/transactions')
-@login_required
-def transactions():
-    return render_template("transactions.html")
+@ app.route('/art/<int:art_id>')
+def transactions(art_id):
+    art = Art.query.filter_by(id=art_id).first()
+
+    base64_image = base64.b64encode(art.img)
+
+    return render_template("art-details.html", image=base64_image.decode("UTF-8"), art_data=art)
 
 
 if __name__ == '__main__':
