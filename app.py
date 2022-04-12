@@ -31,6 +31,13 @@ app.config['SECRET_KEY'] = 'comp3334-group-project'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'kevinthoking@gmail.com'
+app.config['MAIL_PASSWORD'] = 'k1ngk1ng'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 # app.config.update(
 #     MAIL_SERVER='smtp.gmail.com',
 #     MAIL_PORT='587',
@@ -38,11 +45,11 @@ login_manager.login_view = "login"
 #     MAIL_USERNAME=os.environ.get('EMAIL_USER'),
 #     MAIL_PASSWORD=os.environ.get('EMAIL_PASS')
 # )
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_USERNAME'] = "username@gmail.com"
-app.config['MAIL_PASSWORD'] = "password"
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USE_SSL'] = True
+# app.config['MAIL_USERNAME'] = "username@gmail.com"
+# app.config['MAIL_PASSWORD'] = "password"
 mail = Mail(app)
 
 
@@ -98,7 +105,7 @@ class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
     email = StringField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Email"})
+        min=4, max=1000)], render_kw={"placeholder": "Email"})
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Register")
@@ -128,7 +135,7 @@ class LoginForm(FlaskForm):
 
 class RequestResetForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Email"})
+        min=4, max=1000)], render_kw={"placeholder": "Email"})
     submit = SubmitField("Request Password Reset")
 
     def validate_email(self, email):
@@ -252,6 +259,7 @@ def send_email(app, msg):
 
 def send_reset_email(user):
     token = user.get_reset_token()
+    # print(token)
 #     msg = Message('Password Reset Request',
 #                   sender='noreply@demo.com',
 #                   recipients=[user.email])
@@ -261,14 +269,20 @@ def send_reset_email(user):
 # '''
     form = ResetPasswordForm()
     msg = Message()
-    msg.subject = "Flask App Password Reset"
-    msg.sender = os.getenv('MAIL_USERNAME')
+    msg.subject = "NFTSTORE Password Reset"
+    # msg.sender = os.getenv('MAIL_USERNAME')
+    msg.sender = 'kevinthoking@gmail.com'
     msg.recipients = [user.email]
-    msg.html = render_template('reset_token.html',
-                               user=user,
-                               token=token, form=form)
+    # msg.html = render_template('reset_token.html',
+    #                            user=user,
+    #                            token=token, form=form)
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
     # mail.send(msg)
     Thread(target=send_email, args=(app, msg)).start()
+    #send_email(app, msg)
 
 
 @app.route('/reset_password', methods=['GET', 'POST'])
