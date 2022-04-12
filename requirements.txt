@@ -36,4 +36,3 @@ tomli==2.0.1
 Werkzeug==2.0.3
 wrapt==1.14.0
 WTForms==3.0.1
-itsdangerous==2.0.1
