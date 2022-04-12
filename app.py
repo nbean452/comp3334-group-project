@@ -164,7 +164,7 @@ def register():
     form = RegisterForm()
 
     # below function is for development purposes!
-    generate_users()
+    # generate_users()
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
