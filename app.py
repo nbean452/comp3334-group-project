@@ -9,14 +9,15 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
-from flaskblog import db, login_manager, app, mail
+#from flaskblog import db, login_manager, app, mail
+#from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask import Flask, request, Response
 from werkzeug.utils import secure_filename
 from sqlalchemy.orm import relationship
 import base64
 from flask_mail import Message, Mail
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -187,7 +188,8 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
+        new_user = User(username=form.username.data,
+                        email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         return redirect((url_for('login')))
