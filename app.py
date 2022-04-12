@@ -33,8 +33,8 @@ login_manager.login_view = "login"
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'kevinthoking@gmail.com'
-app.config['MAIL_PASSWORD'] = 'k1ngk1ng'
+app.config['MAIL_USERNAME'] = 'need4token@gmail.com'
+app.config['MAIL_PASSWORD'] = 'nftnft123'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 # app.config.update(
@@ -243,7 +243,7 @@ def register():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username=form.username.data,
                         password=hashed_password, balance=0,
-                        email=form.email.data, password=hashed_password)
+                        email=form.email.data)
         db.session.add(new_user)
         db.session.commit()
         return redirect((url_for('login')))
@@ -395,30 +395,15 @@ def send_email(app, msg):
 
 def send_reset_email(user):
     token = user.get_reset_token()
-    # print(token)
-#     msg = Message('Password Reset Request',
-#                   sender='noreply@demo.com',
-#                   recipients=[user.email])
-#     msg.body = f'''To reset your password, visit the following link:
-# {url_for('reset_token', token=token, _external=True)}
-# If you did not make this request then simply ignore this email and no changes will be made.
-# '''
-    form = ResetPasswordForm()
     msg = Message()
-    msg.subject = "NFTSTORE Password Reset"
-    # msg.sender = os.getenv('MAIL_USERNAME')
-    msg.sender = 'kevinthoking@gmail.com'
+    msg.subject = "Need4Token Password Reset"
+    msg.sender = 'need4token@gmail.com'
     msg.recipients = [user.email]
-    # msg.html = render_template('reset_token.html',
-    #                            user=user,
-    #                            token=token, form=form)
     msg.body = f'''To reset your password, visit the following link:
 {url_for('reset_token', token=token, _external=True)}
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
-    # mail.send(msg)
     Thread(target=send_email, args=(app, msg)).start()
-    #send_email(app, msg)
 
 
 @app.route('/reset_password', methods=['GET', 'POST'])
