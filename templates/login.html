@@ -28,6 +28,12 @@
         {{form.password}}
         {{form.submit}}
     </form>
+    <div class="form-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+        <small class="text-muted ml-2">
+            <a href="{{ url_for('reset_request') }}">Forgot Password?</a>
+        </small>
+    </div>
 </body>
 
 </html>
