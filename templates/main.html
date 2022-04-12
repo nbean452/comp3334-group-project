@@ -19,7 +19,18 @@
         </ol>
     </div>
     <h1>Welcome, {{user.username}}</h1>
-    <p>You are in user area!</p>
+    <div class="flex">
+        <p>You are in user area!</p>
+        <p>Balance: ${{user.balance}}</p>
+
+    </div>
+    <form action="/topup" method="POST">
+        <label for="topup-amount">topup amount</label>
+        <input type="number" name="topup-amount" required placeholder="10">
+        <br>
+        <input type="submit" value="topup">
+    </form>
+
 
     <!-- this <a> tag below is used to credit the icon owner -->
     <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
@@ -29,7 +40,9 @@
     <form action="/main/upload" enctype="multipart/form-data" method="POST">
 
         <label for="picname">Picture Name</label>
-        <input type="text" name="picname" placeholder="please enter a name here...">
+        <input type="text" name="picname" required placeholder="please enter a name here...">
+        <label for="price">Art Price</label>
+        <input type="number" required name="price" placeholder="1000">
         <input type="file" name="pic" accept="image/png, image/jpeg">
         <br>
         <input type="submit" value="upload a file">
@@ -37,10 +50,17 @@
     </form>
 
     <div class="img-holder">
-        {% for image in images %}
-        <div>
-            <img src="data:image/jpg;base64,{{image}}">
+        {% for i in range(0,length) %}
+        <div style="background-color: bisque; margin: 20px;">
+            <img src="data:image/jpg;base64,{{images[i]}}">
             <p>Owner: {{user.username}}</p>
+            <form action="/edit-art/{{user.owned_arts[i].id}}" method="POST">
+                <label for="picname">Picture Name</label>
+                <input type="text" name="picname" required value="{{user.owned_arts[i].name}}">
+                <label for="price">Art Price</label>
+                <input type="number" required name="price" value="{{user.owned_arts[i].price}}">
+                <input type="submit" value="Done">
+            </form>
         </div>
         {%endfor%}
     </div>

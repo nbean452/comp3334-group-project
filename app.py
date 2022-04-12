@@ -1,4 +1,5 @@
 from email.mime import base
+from email.policy import default
 from enum import unique
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
@@ -31,35 +32,42 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+users_owned_arts = db.Table('user_owned_arts',
+                            db.Column('user_id', db.Integer,
+                                      db.ForeignKey('user.id')),
+                            db.Column('art.id', db.Integer, db.ForeignKey('art.id')))
+
+users_created_arts = db.Table('user_created_arts',
+                              db.Column('user_id', db.Integer,
+                                        db.ForeignKey('user.id')),
+                              db.Column('art.id', db.Integer, db.ForeignKey('art.id')))
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
-    arts = relationship("Art", backref="user")
-    # taskid = db.relationship('Task', backref='user')
-    # TODO
+    balance = db.Column(db.Integer)
 
-# TODO
+    owned_arts = db.relationship(
+        'Art', secondary=users_owned_arts, backref='owner')
+    created_arts = db.relationship(
+        'Art', secondary=users_created_arts, backref='creator')
+
+    # owned_arts = db.relationship("Art", backref="owner")
+    # created_arts = db.relationship("Art", backref="creator")
 
 
 class Art(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Text, nullable=False, unique=True)
+    name = db.Column(db.Text, nullable=False)
     img = db.Column(db.Text, nullable=False, unique=True)
-    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    owner_id = db.Column(db.Integer)
     creationdate = db.Column(db.DateTime, nullable=False, default=datetime.now)
     mimetype = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Integer, default=0)
 
-# class Task(db.Model, UserMixin):
-#     id = db.Column(db.Integer, primary_key=True)
-#     ownerid = db.Column(db.Integer, db.ForeignKey('user.id'))
-#     name = db.Column(db.String(20), nullable=False)
-#     completion = db.Column(db.Boolean)
-#     desc = db.Column(db.String(400), nullable=True)
-#     creationdate = db.Column(db.DateTime, nullable=False,
-#                              default=datetime.now)
-#     # id, ownerid, name, completion, description, creation date
+    # creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    # owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 class RegisterForm(FlaskForm):
@@ -92,7 +100,7 @@ def index():
     images = Art.query.all()
 
     if not images:
-        return render_template('index.html')
+        return render_template('index-for-anonymous.html', length=0)
 
     return_images = []
     art_data = []
@@ -102,7 +110,10 @@ def index():
         return_images.append(base64_image.decode("UTF-8"))
         art_data.append(image)
 
-    return render_template('index.html', images=return_images, art_data=art_data, length=len(art_data))
+    if current_user.is_authenticated:
+        return render_template('index-for-user.html', images=return_images, art_data=art_data, length=len(art_data), current_user=current_user)
+
+    return render_template('index-for-anonymous.html', images=return_images, art_data=art_data, length=len(art_data))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -138,9 +149,13 @@ def logout():
 def register():
     form = RegisterForm()
 
+    # below function is for development purposes!
+    # generate_users()
+
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
-        new_user = User(username=form.username.data, password=hashed_password)
+        new_user = User(username=form.username.data,
+                        password=hashed_password, balance=0)
         db.session.add(new_user)
         db.session.commit()
         return redirect((url_for('login')))
@@ -155,35 +170,114 @@ def main():
     user = User.query.filter_by(username=current_user.username).first()
     # task_list = Task.query.filter_by(ownerid=user.id)
 
-    images = user.arts
+    user_arts_num = len(user.owned_arts)
+    images = user.owned_arts
     return_images = []
 
     for image in images:
         base64_image = base64.b64encode(image.img)
         return_images.append(base64_image.decode("UTF-8"))
 
-    return render_template('main.html', user=user, images=return_images)
+    return render_template('main.html', user=user, images=return_images, length=user_arts_num)
+
+
+@app.route('/buy/<int:art_id>')
+@login_required
+def buy(art_id):
+
+    art = Art.query.filter_by(id=art_id).first()
+
+    # if not enough balance
+    if current_user.balance < art.price:
+        return "Not enough balance, please top-up!", 200
+
+    # on every transaction, creator gets 5% commision
+    commision = int(art.price * 0.05)
+    net_amount = art.price - commision
+
+    # current user loses money
+    current_user.balance -= art.price
+
+    # art owner gets 95% of the money which is the net amount
+    art.owner[0].balance += net_amount
+
+    # art creator gets 5% of the full price which is the comission
+    art.creator[0].balance += commision
+
+    # transfer ownership to current user!
+    art.owner[0] = current_user
+
+    db.session.commit()
+    return redirect(url_for('index'))
+
+
+@app.route('/edit-art/<int:art_id>', methods=['POST'])
+@login_required
+def edit_art(art_id):
+    picname = request.form.get('picname')
+    price = request.form.get('price')
+
+    art = Art.query.filter_by(id=art_id).first()
+    art.name = picname
+    art.price = price
+    db.session.commit()
+
+    return redirect(url_for('main'))
 
 
 @app.route('/main/upload', methods=['POST'])
 @login_required
 def upload():
-    picname = request.form.get('picname')
     pic = request.files['pic']
     if not pic:
         return 'Not Picture!', 400
+
+    picname = request.form.get('picname')
+    price = request.form.get('price')
 
     filename = secure_filename(pic.filename)
     mimetype = pic.mimetype
     if not filename or not mimetype:
         return 'Bad upload!', 400
 
-    art = Art(img=pic.read(), name=picname, mimetype=mimetype,
-              creator_id=current_user.id, owner_id=current_user.id)
+    # art = Art(img=pic.read(), name=picname, mimetype=mimetype,
+    #           creator_id=current_user.id, owner_id=current_user.id, price=price)
+
+    art = Art(img=pic.read(), name=picname, mimetype=mimetype, price=price)
     db.session.add(art)
+
+    user = User.query.filter_by(id=current_user.id).first()
+    user.owned_arts.append(art)
+    user.created_arts.append(art)
     db.session.commit()
 
     return redirect((url_for('main')))
+
+
+@app.route('/topup', methods=['POST'])
+@login_required
+def topup():
+    amount = int(request.form.get('topup-amount'))
+    user = User.query.filter_by(id=current_user.id).first()
+    user.balance += amount
+    db.session.commit()
+    return redirect(url_for('main'))
+
+
+def generate_users():
+    db.session.add(User(username='nicho', password=bcrypt.generate_password_hash(
+        '123123'), balance=100))
+    db.session.add(User(
+        username='john', password=bcrypt.generate_password_hash('123123'), balance=100))
+    db.session.add(User(username='steve', password=bcrypt.generate_password_hash(
+        '123123'), balance=100))
+    db.session.commit()
+
+
+@app.route('/transactions')
+@login_required
+def transactions():
+    return render_template("transactions.html")
 
 
 if __name__ == '__main__':

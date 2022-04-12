@@ -65,10 +65,6 @@ img {
     max-width: 500px;
 }
 
-input[type='file'] {
-    /* background-color: #648DE5; */
-}
-
 .img-holder {
     background-color: rgba(74, 85, 183, 0.5);
     padding: 10px;
@@ -83,4 +79,16 @@ input[type='file'] {
 
 .desc-holder>p {
     padding: 0 10px 0 10px;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex>* {
+    padding: 0px 10px 0 10px;
+}
+
+table {
+    border-collapse: collapse;
 }
