@@ -34,10 +34,15 @@
 
         <div>
             <h1>Past Transactions</h1>
+            {%if not art_data.transactions%}
+            <p>No transactions yet!</p>
+            {%endif%}
             {%for transaction in art_data.transactions%}
             <div>
-                <p>hi</p>
-                <p>Sold to {{transaction.users[0].username}} for {{transaction.art.price}}</p>
+                <p>{{transaction}}</p>
+                {%for user in transaction.users%}
+                <p>{{user}}</p>
+                {%endfor%}
             </div>
             {%endfor%}
         </div>

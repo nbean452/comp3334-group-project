@@ -24,7 +24,7 @@
     <div class="images-holder">
         {% for i in range(0, length) %}
         <div class="img-holder">
-            <a href="/buy/art_data[i].id"><img src="data:image/jpg;base64,{{images[i]}}"></a>
+            <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}"></a>
             <div class="desc-holder">
                 <p class="art-desc">Owned by: {{art_data[i].owner[0].username}}</p>
                 <p class="art-desc">{{art_data[i].name}}</p>

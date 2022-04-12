@@ -1,6 +1,3 @@
-from email.mime import base
-from email.policy import default
-from enum import unique
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
@@ -9,12 +6,9 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from flask import Flask, request, Response
+from flask import Flask, request
 from werkzeug.utils import secure_filename
-from sqlalchemy.orm import relationship
 import base64
-# from flaskblog import db, login_manager, app, mail
-# from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -169,7 +163,7 @@ def register():
     form = RegisterForm()
 
     # below function is for development purposes!
-    # generate_users()
+    generate_users()
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
@@ -223,7 +217,10 @@ def buy(art_id):
     # art creator gets 5% of the full price which is the comission
     art.creator[0].balance += commision
 
-    new_transc = Transaction(art=art, users=[art.owner[0], current_user])
+    new_transc = Transaction(art=art, users=[])
+    new_transc.users.append(art.owner[0])
+    new_transc.users.append(current_user)
+
     # art.transactions.append(new_transc)
 
     # transfer ownership to current user!

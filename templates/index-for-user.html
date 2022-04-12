@@ -30,8 +30,7 @@
                 <p class="art-desc">{{art_data[i].name}}</p>
                 <p class="art-desc">created on: {{art_data[i].creationdate.strftime("%b %d, %Y")}}</p>
                 <p class="art-desc">price: ${{art_data[i].price}}</p>
-                <!-- <a href="/buy/{{art_data[i].id}}">Buy</a> -->
-                {%if art_data[i].owner.id == current_user.id %}
+                {%if art_data[i].owner[0].id == current_user.id %}
                 <a role="link" aria-disabled="true">Buy</a>
                 {%else%}
                 <a href="/buy/{{art_data[i].id}}">Buy</a>
