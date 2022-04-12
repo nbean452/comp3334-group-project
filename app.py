@@ -50,8 +50,6 @@ class User(db.Model, UserMixin):
     created_arts = db.relationship(
         'Art', secondary=users_created_arts, backref='creator')
 
-    transaction_id = db.Column(db.Integer, db.ForeignKey('transaction.id'))
-
     # owned_arts = db.relationship("Art", backref="owner")
     # created_arts = db.relationship("Art", backref="creator")
 
@@ -80,7 +78,10 @@ class Transaction(db.Model):
                      default=datetime.now)
     art_id = db.Column(db.Integer, db.ForeignKey('art.id'))
 
-    users = db.relationship("User", backref='transaction')
+    seller_id = db.Column(db.Integer)
+    buyer_id = db.Column(db.Integer)
+
+    # users = db.relationship("User", backref='transactions', lazy='dynamic')
 
 
 class RegisterForm(FlaskForm):
@@ -217,9 +218,8 @@ def buy(art_id):
     # art creator gets 5% of the full price which is the comission
     art.creator[0].balance += commision
 
-    new_transc = Transaction(art=art, users=[])
-    new_transc.users.append(art.owner[0])
-    new_transc.users.append(current_user)
+    new_transc = Transaction(
+        art=art, seller_id=art.owner[0].id, buyer_id=current_user.id)
 
     # art.transactions.append(new_transc)
 
@@ -299,8 +299,19 @@ def transactions(art_id):
     art = Art.query.filter_by(id=art_id).first()
 
     base64_image = base64.b64encode(art.img)
+    outer_array = []
 
-    return render_template("art-details.html", image=base64_image.decode("UTF-8"), art_data=art)
+    for transaction in art.transactions:
+        inner_array = []
+        user = User.query.filter_by(id=transaction.seller_id).first()
+        inner_array.append(user)
+        user = User.query.filter_by(id=transaction.buyer_id).first()
+        inner_array.append(user)
+        inner_array.append(transaction.art.price)
+        inner_array.append(transaction.date)
+        outer_array.append(inner_array)
+
+    return render_template("art-details.html", image=base64_image.decode("UTF-8"), art_data=art, transaction_info=outer_array)
 
 
 if __name__ == '__main__':

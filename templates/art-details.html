@@ -24,7 +24,7 @@
             <img src="data:image/jpg;base64,{{image}}">
         </div>
         <div class="desc-holder">
-            <p>created on: {{art_data.creationdate.strftime("%b %d, %Y")}}</p>
+            <p>created on: {{art_data.creationdate.strftime("%b %d, %Y %H:%M:%S")}}</p>
             <p>price: ${{art_data.price}}</p>
 
 
@@ -34,15 +34,13 @@
 
         <div>
             <h1>Past Transactions</h1>
-            {%if not art_data.transactions%}
+            {%if not transaction_info%}
             <p>No transactions yet!</p>
             {%endif%}
-            {%for transaction in art_data.transactions%}
+            {%for info in transaction_info%}
             <div>
-                <p>{{transaction}}</p>
-                {%for user in transaction.users%}
-                <p>{{user}}</p>
-                {%endfor%}
+                <p>seller: {{info[0].username}} buyer: {{info[1].username}} price: {{info[2]}} date:
+                    {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
             </div>
             {%endfor%}
         </div>
