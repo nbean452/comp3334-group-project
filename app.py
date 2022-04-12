@@ -1,11 +1,12 @@
-import email
 import os
+from threading import Thread
 from email.mime import base
 from enum import unique
 from flask import Flask, render_template, url_for, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+from itsdangerous import Serializer
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
@@ -30,11 +31,18 @@ app.config['SECRET_KEY'] = 'comp3334-group-project'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
-app.config['MAIL_SERVER'] = 'smtp.googlemail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('EMAIL_USER')
-app.config['MAIL_PASSWORD'] = os.environ.get('EMAIL_PASS')
+# app.config.update(
+#     MAIL_SERVER='smtp.gmail.com',
+#     MAIL_PORT='587',
+#     MAIL_USE_TLS=True,
+#     MAIL_USERNAME=os.environ.get('EMAIL_USER'),
+#     MAIL_PASSWORD=os.environ.get('EMAIL_PASS')
+# )
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USERNAME'] = "username@gmail.com"
+app.config['MAIL_PASSWORD'] = "password"
 mail = Mail(app)
 
 
@@ -51,8 +59,10 @@ class User(db.Model, UserMixin):
     arts = relationship("Art", backref="user")
 
     def get_reset_token(self, expires_sec=1800):
-        s = Serializer(app.config['SECRET_KEY'], expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+        # s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        # return s.dumps({'user_id': self.id}).decode('utf-8')
+        s = Serializer(app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
 
     @staticmethod
     def verify_reset_token(token):
@@ -235,16 +245,30 @@ def upload():
     return redirect((url_for('main')))
 
 
+def send_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+
 def send_reset_email(user):
     token = user.get_reset_token()
-    msg = Message('Password Reset Request',
-                  sender='noreply@demo.com',
-                  recipients=[user.email])
-    msg.body = f'''To reset your password, visit the following link:
-{url_for('reset_token', token=token, _external=True)}
-If you did not make this request then simply ignore this email and no changes will be made.
-'''
-    mail.send(msg)
+#     msg = Message('Password Reset Request',
+#                   sender='noreply@demo.com',
+#                   recipients=[user.email])
+#     msg.body = f'''To reset your password, visit the following link:
+# {url_for('reset_token', token=token, _external=True)}
+# If you did not make this request then simply ignore this email and no changes will be made.
+# '''
+    form = ResetPasswordForm()
+    msg = Message()
+    msg.subject = "Flask App Password Reset"
+    msg.sender = os.getenv('MAIL_USERNAME')
+    msg.recipients = [user.email]
+    msg.html = render_template('reset_token.html',
+                               user=user,
+                               token=token, form=form)
+    # mail.send(msg)
+    Thread(target=send_email, args=(app, msg)).start()
 
 
 @app.route('/reset_password', methods=['GET', 'POST'])
