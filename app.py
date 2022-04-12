@@ -5,7 +5,7 @@ from enum import unique
 from flask import Flask, render_template, url_for, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, RecaptchaField
 from itsdangerous import Serializer
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -37,19 +37,13 @@ app.config['MAIL_USERNAME'] = 'need4token@gmail.com'
 app.config['MAIL_PASSWORD'] = 'nftnft123'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
-# app.config.update(
-#     MAIL_SERVER='smtp.gmail.com',
-#     MAIL_PORT='587',
-#     MAIL_USE_TLS=True,
-#     MAIL_USERNAME=os.environ.get('EMAIL_USER'),
-#     MAIL_PASSWORD=os.environ.get('EMAIL_PASS')
-# )
-# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-# app.config['MAIL_PORT'] = 465
-# app.config['MAIL_USE_SSL'] = True
-# app.config['MAIL_USERNAME'] = "username@gmail.com"
-# app.config['MAIL_PASSWORD'] = "password"
+
 mail = Mail(app)
+
+app.config["SECRET_KEY"] = "mysecretkey"
+
+app.config["RECAPTCHA_PUBLIC_KEY"] = "6LeG92sfAAAAAHPv8LqZlNnf7l3rabzxPhAiT7Yg"
+app.config["RECAPTCHA_PRIVATE_KEY"] = "6LeG92sfAAAAAANViwBVfS7GHpc-cfuj2OazuSth"
 
 
 @login_manager.user_loader
@@ -138,6 +132,7 @@ class RegisterForm(FlaskForm):
         min=4, max=1000)], render_kw={"placeholder": "Email"})
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
+    recaptcha = RecaptchaField()
     submit = SubmitField("Register")
 
     def validate_username(self, username):
@@ -160,6 +155,7 @@ class LoginForm(FlaskForm):
         min=4, max=20)], render_kw={"placeholder": "Username"})
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
+    recaptcha = RecaptchaField()
     submit = SubmitField("Login")
 
 
