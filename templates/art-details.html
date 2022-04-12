@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="icon" href="/static/img/time.png" type="image/x-icon">
+    <title>Past Transactions</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <ol>
+            <li><a href="{{url_for('index')}}">Home</a></li>
+            <li><a href="{{url_for('login')}}">Login</a></li>
+            <li><a href="{{url_for('register')}}">Register</a></li>
+        </ol>
+    </div>
+    <h1>Art Name</h1>
+    <div>
+        <div class="img-holder">
+            <img src="data:image/jpg;base64,{{image}}">
+        </div>
+        <div class="desc-holder">
+            <p>created on: {{art_data.creationdate.strftime("%b %d, %Y")}}</p>
+            <p>price: ${{art_data.price}}</p>
+
+
+            <p>owner: {{art_data.owner[0].username}}</p>
+            <p>creator: {{art_data.creator[0].username}}</p>
+        </div>
+
+        <div>
+            <h1>Past Transactions</h1>
+            {%for transaction in art_data.transactions%}
+            <div>
+                <p>hi</p>
+                <p>Sold to {{transaction.users[0].username}} for {{transaction.art.price}}</p>
+            </div>
+            {%endfor%}
+        </div>
+
+    </div>
+</body>
+
+</html>
