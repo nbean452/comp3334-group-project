@@ -1,14 +1,23 @@
-from flask import Flask, render_template, url_for, redirect, request
+import os
+from threading import Thread
+from email.mime import base
+from enum import unique
+from flask import Flask, render_template, url_for, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
+from itsdangerous import Serializer
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
+#from flaskblog import db, login_manager, app, mail
+#from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 from flask import Flask, request
 from werkzeug.utils import secure_filename
 import base64
+from flask_mail import Message, Mail
+
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -21,6 +30,26 @@ app.config['SECRET_KEY'] = 'comp3334-group-project'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'kevinthoking@gmail.com'
+app.config['MAIL_PASSWORD'] = 'k1ngk1ng'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+# app.config.update(
+#     MAIL_SERVER='smtp.gmail.com',
+#     MAIL_PORT='587',
+#     MAIL_USE_TLS=True,
+#     MAIL_USERNAME=os.environ.get('EMAIL_USER'),
+#     MAIL_PASSWORD=os.environ.get('EMAIL_PASS')
+# )
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USE_SSL'] = True
+# app.config['MAIL_USERNAME'] = "username@gmail.com"
+# app.config['MAIL_PASSWORD'] = "password"
+mail = Mail(app)
 
 
 @login_manager.user_loader
@@ -41,6 +70,7 @@ users_created_arts = db.Table('user_created_arts',
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(20), nullable=False, unique=True)
     username = db.Column(db.String(20), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
     balance = db.Column(db.Integer)
@@ -52,6 +82,21 @@ class User(db.Model, UserMixin):
 
     # owned_arts = db.relationship("Art", backref="owner")
     # created_arts = db.relationship("Art", backref="creator")
+
+    def get_reset_token(self, expires_sec=1800):
+        # s = Serializer(app.config['SECRET_KEY'], expires_sec)
+        # return s.dumps({'user_id': self.id}).decode('utf-8')
+        s = Serializer(app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token)['user_id']
+        except:
+            return None
+        return User.query.get(user_id)
 
 
 class Art(db.Model):
@@ -89,6 +134,8 @@ class Transaction(db.Model):
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
+    email = StringField(validators=[InputRequired(), Length(
+        min=4, max=1000)], render_kw={"placeholder": "Email"})
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
     submit = SubmitField("Register")
@@ -101,6 +148,12 @@ class RegisterForm(FlaskForm):
                 "That username already exists. Please choose a different one."
             )
 
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError(
+                "That email is taken. Please choose a different one.")
+
 
 class LoginForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -110,7 +163,25 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Login")
 
 
-@ app.route('/')
+class RequestResetForm(FlaskForm):
+    email = StringField(validators=[InputRequired(), Length(
+        min=4, max=1000)], render_kw={"placeholder": "Email"})
+    submit = SubmitField("Request Password Reset")
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError(
+                "There is no account with that Email. You must register first.")
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "New password"})
+    submit = SubmitField("Reset Password")
+
+
+@app.route('/')
 def index():
 
     images = Art.query.all()
@@ -171,7 +242,8 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username=form.username.data,
-                        password=hashed_password, balance=0)
+                        password=hashed_password, balance=0,
+                        email=form.email.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         return redirect((url_for('login')))
@@ -314,6 +386,68 @@ def transactions(art_id):
         outer_array.append(inner_array)
 
     return render_template("art-details.html", image=base64_image.decode("UTF-8"), art_data=art, transaction_info=outer_array)
+
+
+def send_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def send_reset_email(user):
+    token = user.get_reset_token()
+    # print(token)
+#     msg = Message('Password Reset Request',
+#                   sender='noreply@demo.com',
+#                   recipients=[user.email])
+#     msg.body = f'''To reset your password, visit the following link:
+# {url_for('reset_token', token=token, _external=True)}
+# If you did not make this request then simply ignore this email and no changes will be made.
+# '''
+    form = ResetPasswordForm()
+    msg = Message()
+    msg.subject = "NFTSTORE Password Reset"
+    # msg.sender = os.getenv('MAIL_USERNAME')
+    msg.sender = 'kevinthoking@gmail.com'
+    msg.recipients = [user.email]
+    # msg.html = render_template('reset_token.html',
+    #                            user=user,
+    #                            token=token, form=form)
+    msg.body = f'''To reset your password, visit the following link:
+{url_for('reset_token', token=token, _external=True)}
+If you did not make this request then simply ignore this email and no changes will be made.
+'''
+    # mail.send(msg)
+    Thread(target=send_email, args=(app, msg)).start()
+    #send_email(app, msg)
+
+
+@app.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+    form = RequestResetForm()
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        send_reset_email(user)
+        flash('An email has been sent with instructions to reset your password.', 'info')
+        return redirect(url_for('login'))
+    return render_template('reset_request.html', title='Reset Password', form=form)
+
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('That is an invalid or expired token', 'warning')
+        return redirect(url_for('reset_request'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(
+            form.password.data).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        flash('Your password has been updated! You are now able to log in', 'success')
+        return redirect(url_for('login'))
+    return render_template('reset_token.html', title='Reset Password', form=form)
 
 
 if __name__ == '__main__':
