@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./static/css/index.css">
-    <link rel="icon" href="./static/img/time.png" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/main.css">
     <title>NFT Main</title>
 </head>
 
 <body>
+    <!--
     <div class="navbar">
         <ol>
             <li><a href="{{url_for('index')}}">Home</a></li>
@@ -21,7 +21,10 @@
     <h1>Welcome, {{user.username}}</h1>
     <p>You are in user area!</p>
 
+    -->
     <!-- this <a> tag below is used to credit the icon owner -->
+    
+    <!--
     <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
         Calendar icons created by Freepik - Flaticon
     </a>
@@ -41,6 +44,59 @@
         <img src="data:image/jpg;base64,{{image}}">
         {%endfor%}
     </div>
+    --> 
+
+    <ul>
+        <li><a href="">Home</a></li>
+        <li><a class="active" href="">Profile</a></li>
+        <li><a href="">Login</a></li>
+        <li><a href="">Register</a></li>
+    </ul>
+
+    
+
+    <br><br><br><br><br><br><br>  
+
+    <h1 id="welcome">Welcome, {{user.username}}</h1>
+    <div class="profile-parent">
+        <div class="vertical-flex">
+            <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="Listed NFT 1">
+            <input class="change-pp" type="submit" value="Change profile picture">
+        </div>
+        <div class="profile-info">
+            <h3>Username</h3>
+            <h4>Balance: $999</h4>
+        </div>
+    </div>
+    
+    <br><br><br><br><br><br>  
+    <h1>My Collection</h1>
+    <br><br><br><br> 
+
+    <div class="img-holder">
+        <div class="NFT-item">  
+            <img src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="Listed NFT 1">
+            <h3>Smoking guy</h3>
+            <h4>$999</h4>
+        </div>
+        <div class="NFT-item">  
+            <img src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="Listed NFT 1">
+            <h3>Smoking guy</h3>
+            <h4>$999</h4>
+        </div>
+        <div class="NFT-item">  
+            <img src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="Listed NFT 1">
+            <h3>Smoking guy</h3>
+            <h4>$999</h4>
+        </div>
+        <div class="NFT-item">  
+            <img src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="Listed NFT 1">
+            <h3>Smoking guy</h3>
+            <h4>$999</h4>
+        </div>
+        
+
+    
 </body>
 
 </html>

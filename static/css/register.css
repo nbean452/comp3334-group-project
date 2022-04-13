@@ -1,0 +1,84 @@
+
+h1{
+    color: white;
+}
+body{
+    background-color: #282828;
+    font-family: 'Trebuchet MS', sans-serif;
+    padding-left: 5%;
+}
+
+.vertDivide{
+    float: right;
+    width: 60%;
+    min-height: 800px;
+    background-color: #3500D3;
+    margin-left: 5%;
+}
+
+.divVertInside{
+    float: right;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    min-width: 80%;
+    min-height: 650px;
+    align-content: center;
+    background-color: #3500D3;
+}
+
+label{
+    color: white;
+}
+
+input[type=text]{
+    background-color: #282828;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 30px;
+    width: 50%;
+}
+
+input[type=submit] {
+    width: 25%;
+    background-color: #240090;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+a:link{
+    text-decoration: none;
+}
+
+
+.hexagon {
+    position: relative;
+    width: 90px; 
+    height: 51.96px;
+    background-color: #ffffff;
+    margin: 25.98px 0;
+    margin-left: 12.5%;
+  }
+  
+  .hexagon:before,
+  .hexagon:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 45px solid transparent;
+    border-right: 45px solid transparent;
+  }
+  
+  .hexagon:before {
+    bottom: 100%;
+    border-bottom: 25.98px solid #ffffff;
+  }
+  
+  .hexagon:after {
+    top: 100%;
+    width: 0;
+    border-top: 25.98px solid #ffffff;
+  }
