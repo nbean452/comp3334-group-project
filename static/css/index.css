@@ -69,6 +69,37 @@ img {
     max-height: 300px;
 }
 
+.buy {
+    background-color: green;
+    font-weight: 700;
+    text-align: center;
+    width: 20%;
+}
+
+.no-buy {
+    background-color: red;
+    font-weight: 700;
+    text-align: center;
+    width: 20%;
+}
+
+.no-buy:hover {
+    color: black;
+}
+
+.not-allowed {
+    background-color: gray;
+    font-weight: 700;
+    text-align: center;
+    width: 20%;
+    opacity: 0.4;
+}
+
+.not-allowed:hover {
+    text-decoration: none;
+    color: black;
+}
+
 .img-holder {
     background-color: rgba(74, 85, 183, 0.5);
     padding: 10px;

@@ -7,13 +7,19 @@
                 {{ form.password.label(class="form-control-label") }}
                 {% if form.password.errors %}
                 {{ form.password(class="form-control form-control-lg is-invalid") }}
+
                 <div class="invalid-feedback">
                     {% for error in form.password.errors %}
                     <span>{{ error }}</span>
                     {% endfor %}
                 </div>
                 {% else %}
+                {%for info in msg%}
+                <p>{{info}}</p>
+                {%endfor%}
                 {{ form.password(class="form-control form-control-lg") }}
+                {{ form.password_confirm(class="form-control form-control-lg") }}
+                {{form.recaptcha()}}
                 {% endif %}
             </div>
 

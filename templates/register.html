@@ -24,11 +24,14 @@
     <p class="error-msg">{{ ', '.join(errors) }}</p>
     {% endfor %}
     <form method="POST" action="">
+        {%for info in msg%}
+        <p>{{info}}</p>
+        {%endfor%}
         {{form.hidden_tag()}}
-        {{msg}}
         {{form.username}}
         {{form.email}}
         {{form.password}}
+        {{form.password_confirm}}
         {{form.recaptcha()}}
         {{form.submit}}
     </form>
