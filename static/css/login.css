@@ -60,12 +60,14 @@ a:link{
     border-top: 25.98px solid #ffffff;
   }
 
-  input[type=text]{
+  input[type=text],
+  input[type=password]{
     background-color: #282828;
     margin-top: 5px;
     margin-bottom: 5px;
     height: 30px;
     width: 50%;
+    color:white;
 }
 
 label{

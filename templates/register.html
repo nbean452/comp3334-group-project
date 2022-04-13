@@ -50,6 +50,7 @@
             <p class="error-msg">{{ ', '.join(errors) }}</p>
             {% endfor %}
             <form method="POST" action="">
+                {{form.hidden_tag()}}
                 <label for="email">Email</label><br>
                 <!-- <input type="text" id="email" name="email"  placeholder="Please enter your email" size="40"><br> -->
                 {{form.email}}<br>

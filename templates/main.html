@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="../static/css/main.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>{{current_user.username}}'s page</title>
 </head>
 
 <body>
+    <!--
     <div class="navbar">
         <ol>
             <li><a href="{{url_for('index')}}">Home</a></li>
@@ -30,9 +31,11 @@
         <br>
         <input type="submit" value="topup">
     </form>
+    -->
 
-
+    
     <!-- this <a> tag below is used to credit the icon owner -->
+    <!--
     <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
         Calendar icons created by Freepik - Flaticon
     </a>
@@ -64,6 +67,76 @@
         </div>
         {%endfor%}
     </div>
+    -->
+
+
+    <ul>
+        <li><a href="{{url_for('index')}}">Home</a></li>
+        <li><a role="link" aria-disabled="true" class="active" href="">Profile</a></li>
+        <li><a href="{{url_for('logout')}}">Log Out</a></li>
+    </ul>
+
+    
+
+    <br><br><br><br><br><br><br>  
+
+    <h1 id="welcome">Welcome, {{user.username}}</h1>
+    <div class="profile-parent">
+        <div class="vertical-flex">
+            <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
+        </div>
+        <div class="profile-info">
+            <h3>{{user.username}}</h3>
+            <h4>Balance: ${{user.balance}}</h4>
+
+            <form action="/topup" method="POST">
+                <label for="topup-amount">topup amount</label>
+                <input type="number" name="topup-amount" required placeholder="10">
+                <br>
+                <input type="submit" value="topup">
+            </form>
+        </div>
+    </div>
+    
+    <br><br><br><br><br><br>  
+    <!--upload section-->
+    <div class="upload-div">
+        <form action="/main/upload" enctype="multipart/form-data" method="POST">
+            <label for="picname">Picture Name</label>
+            <input type="text" name="picname" required placeholder="please enter a name here...">
+            <label for="price">Art Price</label>
+            <input type="number" required name="price" placeholder="1000">
+            <input type="file" name="pic" accept="image/png, image/jpeg">
+            <br>
+            <input type="submit" value="upload a file">
+        </form>
+    </div>
+    
+    <br><br><br><br>
+    <h1>My Collection</h1>
+    <br><br><br><br> 
+
+    <div class="img-holder">
+        {% for i in range(0,length) %}
+        <div class="NFT-item">  
+            <img src="data:image/jpg;base64,{{images[i]}}" alt="Listed NFT 1">
+            <h3>{{user.owned_arts[i].name}}</h3>
+            <h4>Owned by: {{user.username}}</h4>
+            <h4>${{user.owned_arts[i].price}}</h4>
+
+            <form action="/edit-art/{{user.owned_arts[i].id}}" method="POST">
+                <label for="picname" style="color: black;">Picture Name:</label>
+                <input type="text" name="picname" required value="{{user.owned_arts[i].name}}">
+                <label for="price">Art Price</label>
+                <input type="number" required name="price" value="{{user.owned_arts[i].price}}">
+                <input type="submit" value="Done">
+            </form>
+        </div>
+        {%endfor%}
+    </div>
+
+        
+
 </body>
 
 </html>

@@ -46,7 +46,7 @@
     <br><br><br>
     <h1>Welcome to Need4Token!</h1>
     <h2>Track on NFT trading</h2>
-    <p>Balance: ${{current_user.balance}}</p><!--edit-->
+    <h2>Balance: ${{current_user.balance}}</h2><!--edit-->
 
     <br><br><br><br><br><br><br><br><br><br>
     <div class="hexagon"></div>
@@ -62,8 +62,11 @@
             <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}" class=""></a>            <h3>{{art_data[i].name}}</h3>
             <h4>Owned by: {{art_data[i].owner[0].username}}</h4>
             <h4>created on: {{art_data[i].creationdate}}</h4>
+
             <h4>${{art_data[i].price}}</h4>
-            <a href="/buy/{{art_data[i].id}}">Buy</a><!--bikin button-->
+
+        <a href="/buy/{{art_data[i].id}}"><button>Buy</button></a>
+        <a href="/buy/{{art_data[i].id}}">Buy</a>
         </div>
         {%endfor%}
     </div>
