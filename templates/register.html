@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="../static/css/register.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>Need4Token Register</title>
 </head>
 
 <body>
+    <!--
     <div class="navbar">
         <ol>
             <li><a href="{{url_for('index')}}">Home</a></li>
@@ -35,6 +36,59 @@
         {{form.recaptcha()}}
         {{form.submit}}
     </form>
+    -->
+
+    <div class="vertDivide">
+        <div class="divVertInside">
+
+            <p><a href="{{url_for('index')}}"> Back to Home</a></p>
+            
+            <br>
+            <h1>Sign Up</h1>
+
+            {% for field, errors in form.errors.items() %}
+            <p class="error-msg">{{ ', '.join(errors) }}</p>
+            {% endfor %}
+            <form method="POST" action="">
+                <label for="email">Email</label><br>
+                <!-- <input type="text" id="email" name="email"  placeholder="Please enter your email" size="40"><br> -->
+                {{form.email}}<br>
+
+                <label for="username">Username</label><br>
+                <!-- <input type="text" id="username" name="username" placeholder="Please enter alphanumerical character" size="40"><br> -->
+                {{form.username}}<br>
+
+                <label for="password">Password</label><br>
+                <!-- <input type="text" id="Password" name="Password" placeholder="Please enter 8-20 characters" size="40"><br> -->
+                {{form.password}} <br>
+
+                <label for="password_confirm">Type your password again</label><br>
+                {{form.password_confirm}} <br><br>
+
+                {{form.recaptcha()}}<br>
+
+                {{form.submit}}
+                <br><br>
+                <!-- <input type="submit" value="Sign Up"> -->
+                <p> Already have an account? <a href="{{url_for('login')}}"> Log in</a></p>
+                <br>
+                {%for info in msg%}
+                <p>{{info}}</p>
+                {%endfor%}
+                
+            </form>
+
+        </div>
+    </div>
+
+    <!-- left Side of screen-->
+    <br><br><br><br><br><br>
+    <h1>
+        Trade and Collect NFTs safely with (NFT)
+    </h1> 
+
+    <br><br><br><br><br><br><br>
+    <div class="hexagon"></div>
 </body>
 
 </html>

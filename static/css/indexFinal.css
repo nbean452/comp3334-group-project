@@ -1,0 +1,122 @@
+
+*{
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+body{
+    background-color: #282828;
+}
+
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding-top: 1.5%;
+    padding-bottom: 1.5%;
+    overflow: hidden;
+    background-color: #3500D3;
+  }
+
+li{
+    font-size: 18px;
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    color: black;
+  }
+
+  .active{
+      background-color: #190061;
+      border-radius: 4px;
+  }
+
+  h1, h2{
+      text-align: center;
+      color: white;
+  }
+
+  h1{
+    font-size: 72pt;
+  }
+
+  h2{
+    font-size: 24pt;
+  }
+
+  .img-holder{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #3500D3;
+    align-self: center;
+    margin-left: 10%;
+    margin-right: 10%;
+
+    padding-top: 30px;
+    padding-bottom: 30px;
+
+    align-items: center;
+    justify-content: center;
+
+
+  }
+
+.NFT-item{
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+    height: 400px;
+    background-color: white;
+}
+
+img {
+    width: 300px;
+    height: 300px;
+}
+
+.hexagon {
+    position: relative;
+    width: 90px; 
+    height: 51.96px;
+    background-color: #ffffff;
+    margin: 25.98px 0;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .hexagon:before,
+  .hexagon:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 45px solid transparent;
+    border-right: 45px solid transparent;
+  }
+  
+  .hexagon:before {
+    bottom: 100%;
+    border-bottom: 25.98px solid #ffffff;
+  }
+  
+  .hexagon:after {
+    top: 100%;
+    width: 0;
+    border-top: 25.98px solid #ffffff;
+  }
+
+  .error-msg {
+    color: red;
+}
