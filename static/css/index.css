@@ -56,15 +56,31 @@ a:hover {
     color: #648DE5;
 }
 
-.img-holder {
+.images-holder {
     display: flex;
     flex-wrap: wrap;
 }
 
 img {
-    max-width: 450px;
+    max-width: 500px;
 }
 
 input[type='file'] {
     /* background-color: #648DE5; */
+}
+
+.img-holder {
+    background-color: rgba(74, 85, 183, 0.5);
+    padding: 10px;
+    backdrop-filter: blur(10px);
+    max-width: 50%;
+}
+
+.desc-holder {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.desc-holder>p {
+    padding: 0 10px 0 10px;
 }

@@ -95,12 +95,14 @@ def index():
         return render_template('index.html')
 
     return_images = []
+    art_data = []
 
     for image in images:
         base64_image = base64.b64encode(image.img)
         return_images.append(base64_image.decode("UTF-8"))
+        art_data.append(image)
 
-    return render_template('index.html', images=return_images)
+    return render_template('index.html', images=return_images, art_data=art_data, length=len(art_data))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -153,7 +155,7 @@ def main():
     user = User.query.filter_by(username=current_user.username).first()
     # task_list = Task.query.filter_by(ownerid=user.id)
 
-    images = Art.query.filter_by(owner_id=current_user.id)
+    images = user.arts
     return_images = []
 
     for image in images:
