@@ -444,12 +444,23 @@ def fetch():
         transaction_data = []
         # id, date, art_id, seller_id, buyer_id, price
         for transaction in transactions:
-            # b = transaction.id.encode("UTF-8")
+            hashed_id = bcrypt.generate_password_hash(transaction.id)
+            hashed_art_id = bcrypt.generate_password_hash(transaction.art_id)
+            hashed_date = bcrypt.generate_password_hash(transaction.date)
+            hashed_seller_id = bcrypt.generate_password_hash(transaction.seller_id)
+            hashed_buyer_id = bcrypt.generate_password_hash(transaction.buyer_id)
+            hashed_price = bcrypt.generate_password_hash(transaction.price)
+            transactions.id=hashed_id
+            transactions.art_id=hashed_art_id
+            transactions.date=hashed_date
+            transactions.seller_id=hashed_seller_id
+            transactions.buyer_id=hashed_buyer_id
+            transactions.price=hashed_price
+            db.session.commit()
+            """
             b = str(transaction.id)
             b = b.encode("UTF-8")
             transaction_data.append(RSAencryption(b))
-            # put back to database
-            # b = transaction.date.encode("UTF-8")
             b = str(transaction.date)
             b = b.encode("UTF-8")
             transaction_data.append(RSAencryption(b))
@@ -463,6 +474,7 @@ def fetch():
             b = b.encode("UTF-8")
             transaction_data.append(RSAencryption(b))
             transactions_list.append(transaction_data)
+            """
         return transactions_list
     except Exception as e:
         # e holds description of the error
