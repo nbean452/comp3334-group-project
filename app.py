@@ -15,8 +15,11 @@ from flask_bcrypt import Bcrypt
 from datetime import datetime
 from flask import Flask, request
 from werkzeug.utils import secure_filename
-import base64
 from flask_mail import Message, Mail
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP, PKCS1_v1_5
+import base64
+
 
 
 app = Flask(__name__)
@@ -122,6 +125,7 @@ class Transaction(db.Model):
 
     price = db.Column(db.Integer, default=0, nullable=False)
 
+    # id, date, art_id, seller_id, buyer_id, price
     # users = db.relationship("User", backref='transactions', lazy='dynamic')
 
 
@@ -182,6 +186,9 @@ def index():
 
     images = Art.query.all()
 
+    data=fetch()
+    # print(data)
+
     if not images:
         return render_template('index-for-anonymous.html', length=0)
 
@@ -196,7 +203,7 @@ def index():
     if current_user.is_authenticated:
         return render_template('index-for-user.html', images=return_images, art_data=art_data, length=len(art_data), current_user=current_user)
 
-    return render_template('index-for-anonymous.html', images=return_images, art_data=art_data, length=len(art_data))
+    return render_template('index-for-anonymous.html', images=return_images, art_data=art_data, length=len(art_data), data=data)
 
 
 @ app.route('/login', methods=['GET', 'POST'])
@@ -430,9 +437,69 @@ def reset_token(token):
         return redirect(url_for('login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
 
+def fetch():
+    try:
+        transactions = Transaction.query.all()
+        transactions_list = []
+        transaction_data = []
+        # id, date, art_id, seller_id, buyer_id, price
+        for transaction in transactions:
+            # b = transaction.id.encode("UTF-8")
+            b = str(transaction.id)
+            b = b.encode("UTF-8")
+            transaction_data.append(RSAencryption(b))
+            # put back to database
+            # b = transaction.date.encode("UTF-8")
+            b = str(transaction.date)
+            b = b.encode("UTF-8")
+            transaction_data.append(RSAencryption(b))
+            b = str(transaction.seller_id)
+            b = b.encode("UTF-8")
+            transaction_data.append(RSAencryption(b))
+            b = str(transaction.buyer_id)
+            b = b.encode("UTF-8")
+            transaction_data.append(RSAencryption(b))
+            b = str(transaction.price)
+            b = b.encode("UTF-8")
+            transaction_data.append(RSAencryption(b))
+            transactions_list.append(transaction_data)
+        return transactions_list
+    except Exception as e:
+        # e holds description of the error
+        error_text = "<p>Error message:<br>" + str(e) + "</p>"
+        head = '<h1>Something is broken.</h1>'
+        return head + error_text
+    
+
+def create_rsa_key():
+    key = RSA.generate(2048)
+
+    private = key.exportKey('PEM')
+    public = key.publickey()
+
+    with open("private.pem", "wb") as f:
+        f.write(private)
+    with open("public.pem", "wb") as f:
+        f.write(public.exportKey('PEM'))
+
+def RSAencryption(b):
+    public = RSA.importKey(
+        open("public.pem").read()
+    )
+    cipher = PKCS1_OAEP.new(public)
+
+    ciphertex = cipher.encrypt(b)
+    return ciphertex
+
+def RSAdecryption(ciphertex):
+    private = RSA.importKey(open('private.pem').read())
+    cipher = PKCS1_OAEP.new(private)
+    message = cipher.decrypt(ciphertex)
+    return message
 
 if __name__ == '__main__':
 
+    create_rsa_key()
     db.create_all()
 
     app.run(debug=True)
