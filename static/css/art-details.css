@@ -233,6 +233,7 @@ input[type=password] {
   height: 30px;
   width: 100%;
   border-radius: 2.5px;
+  color: rgb(var(--main_color));
 }
 
 input[type=text]::placeholder,
