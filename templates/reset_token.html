@@ -1,9 +1,13 @@
-<div class="content-section">
+<head>
+    <link rel="stylesheet" href="../static/css/reset_token.css">
+    <title>Reset Password</title>
+</head>
+    
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Reset Password</legend>
             <div class="form-group">
+                <h2> Reset Password </h2>
                 {{ form.password.label(class="form-control-label") }}
                 {% if form.password.errors %}
                 {{ form.password(class="form-control form-control-lg is-invalid") }}
@@ -22,10 +26,6 @@
                 {{form.recaptcha()}}
                 {% endif %}
             </div>
-
-        </fieldset>
-        <div class="form-group">
             {{ form.submit(class="btn btn-outline-info") }}
-        </div>
+        </fieldset>
     </form>
-</div>
