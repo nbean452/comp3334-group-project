@@ -1,25 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&family=Ubuntu:ital,wght@0,500;0,700;1,700&display=swap');
 
-*{
-    font-family: 'Trebuchet MS', sans-serif;
+* {
+    /* font-family: 'Trebuchet MS', sans-serif; */
+    /* font-family: 'Ubuntu', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-body{
-    background-color: #282828;
+body {
+    /* background-color: rgba(var(--main_color), 1); */
+    margin: 0;
+    /* background: linear-gradient(50deg, #4612aa, #590cca, #ad20bf, #d25ea3, #d783ad, #db95bb, #daa1c4); */
+    background: linear-gradient(50deg, rgba(var(--main_color), 0.6), rgba(var(--second_color), 0.6), rgba(var(--third_color), 0.6), rgba(var(--fourth_color), 0.6));
+    background-size: 600% 600%;
+    background-position: 0% 0%;
+    animation: background-animation 4s ease-in-out infinite;
 }
-
 
 ul {
     list-style-type: none;
     margin: 0;
-    padding-top: 1.5%;
-    padding-bottom: 1.5%;
     overflow: hidden;
-    background-color: #3500D3;
-  }
+    background-color: rgba(var(--third_color), 0.6);
+    backdrop-filter: blur(15px);
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    /* padding-top: 1%; */
+    /* padding-bottom: 1%; */
+    /* border-radius: 10px; */
+}
 
-li{
+li:hover {
+    background-color: rgba(var(--fourth_color), 1);
+    transition: all 0.2s ease-in-out;
+}
+
+li {
     font-size: 18px;
     float: left;
+    /* border-radius: 4px; */
+    /* margin: 0px 10px 0px 10px; */
+    padding: 0px 10px 0px 10px;
 }
 
 li a {
@@ -28,32 +53,29 @@ li a {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-  }
-  
-  li a:hover {
-    color: black;
-  }
+}
 
-  .active{
-      background-color: #190061;
-      border-radius: 4px;
-  }
+li a:hover {
+    color: white;
+}
 
-  h1{
-      text-align: center;
-      color: white;
-  }
+.active {
+    background-color: rgba(var(--fourth_color), 1);
+    /* border-radius: 4px; */
+}
 
-  h1#welcome{
-      text-align: left;
-      margin-left: 10%;
-  }
 
-  .img-holder{
+
+h1#welcome {
+    text-align: left;
+    margin-left: 10%;
+}
+
+.img-holder {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    background-color: #3500D3;
+    background-color: rgb(var(--main_color));
     align-self: center;
     margin-left: 10%;
     margin-right: 10%;
@@ -64,16 +86,12 @@ li a {
     align-items: center;
     justify-content: center;
 
-    border-radius: 10px;
+    border-radius: 30px;
 
-  }
+}
 
-.NFT-item{
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-
+.NFT-item {
+    padding: 20px;
     margin-left: 10px;
     margin-right: 10px;
     margin-bottom: 20px;
@@ -87,21 +105,69 @@ li a {
 
 }
 
-img {
-    width: 300px;
-    height: 300px;
+@keyframes background-animation {
+    0% {
+        background-position: 0% 51%
+    }
+
+    50% {
+        background-position: 100% 50%
+    }
+
+    100% {
+        background-position: 0% 51%
+    }
+
 }
 
-.profile-parent{
+.beautiful-text {
+    background: linear-gradient(50deg, var(--text_one), var(--text_two), var(--text_three), var(--text_four), var(--text_five), var(--text_six));
+    /* background-image: linear-gradient(45deg, rgb(var(--fourth_color)), rgb(var(--main_color)), rgb(var(--fourth_color))); */
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -moz-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+    /* background-size: 100%; */
+    background-repeat: repeat;
+    background-size: 600% 600%;
+    background-position: 0% 0%;
+    animation: background-animation 10s ease-in-out infinite;
+}
+
+label {
+    color: rgb(var(--second_color));
+}
+
+.coin-item {
+    max-width: 20px;
+    max-height: 20px;
+    border: none;
+}
+
+.price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+img {
+    width: 350px;
+    height: 350px;
+    border: gray 2px solid;
+    border-radius: 5px;
+
+}
+
+.profile-parent {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    background-color: #3500D3;
+    background-color: rgb(var(--main_color));
     margin-left: 10%;
     margin-right: 10%;
 
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding: 30px;
 
     align-items: center;
     justify-content: center;
@@ -109,27 +175,30 @@ img {
     border-radius: 10px;
 }
 
-.profile-picture{
+.profile-parent * {
+    color: rgb(var(--second_color));
+}
+
+.profile-picture {
     width: 300px;
     height: 300px;
 }
 
-.profile-info{
+.profile-info {
     margin-left: 100px;
-    background-color: #3500D3;
     height: 300px;
     width: 600px;
 
-    
+
 }
 
-.vertical-flex{
+.vertical-flex {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
 }
 
-.change-pp{
+.change-pp {
     margin-top: 10px;
     height: 40px;
 }
@@ -142,47 +211,65 @@ input[type=submit] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
+}
 
-  .error-msg {
+.error-msg {
     color: red;
 }
 
 input[type=text],
-  input[type=password],
-  input[type=number]{
-    background-color: #282828;
+input[type=password],
+input[type=number] {
+    background-color: rgb(var(--second_color));
     margin-top: 5px;
     margin-bottom: 5px;
     height: 30px;
-    width: 50%;
-    color:white;
+    width: 100%;
+    color: white;
 }
 
-label{
-    color: white;
+input[type=text]::placeholder,
+input[type=number]::placeholder {
+    color: rgb(var(--main_color));
 }
 
 input[type=submit],
 input[type=file] {
-    width: 25%;
-    background-color: #240090;
+    width: 100%;
+    background-color: rgb(var(--third_color));
     color: white;
     padding: 14px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin: 10px;
-  }
+    margin: 10px 0px;
+}
 
-  .upload-div{
-      background-color:#190061;
-      margin-left: auto;
-      margin-right: auto;
-      width: 50%;
-      padding: 20px;
-      border-radius: 10px;
-    
+.NFT-item * {
+    color: rgb(var(--second_color));
+}
+
+.upload-div {
+    background-color: rgb(var(--main_color));
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    padding: 20px;
+    border-radius: 10px;
 
 
-  }
+
+}
+
+.upload-div * {
+    color: rgb(var(--second_color));
+}
+
+.large {
+    font-size: 72px;
+}
+
+h1,
+h2 {
+    text-align: center;
+}

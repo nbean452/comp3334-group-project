@@ -1,28 +1,29 @@
 <head>
     <link rel="stylesheet" href="../static/css/reset_request.css">
+    <link rel="stylesheet" href="../static/css/colors.css">
     <title>Forgot Password</title>
 </head>
 
 
-    <form method="POST" action="">
-        {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-            <div class="form-group">
-                <h2> Reset Password </h2>
-                {{ form.email.label(class="form-control-label") }}
-                {% if form.email.errors %}
-                {{ form.email(class="form-control form-control-lg is-invalid") }}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                    <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.email(class="form-control form-control-lg") }}
-                {% endif %}
+<form method="POST" action="">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+        <div class="form-group">
+            <h2> Reset Password </h2>
+            {{ form.email.label(class="form-control-label") }}
+            {% if form.email.errors %}
+            {{ form.email(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+                {% for error in form.email.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
             </div>
-            {{ form.submit(class="btn btn-outline-info") }}
-            <br><br>
-            <a href="{{url_for('login')}}">Go Back</a>
-        </fieldset>
-    </form>
+            {% else %}
+            {{ form.email(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+        {{ form.submit(class="btn btn-outline-info") }}
+        <br><br>
+        <a href="{{url_for('login')}}">Go Back</a>
+    </fieldset>
+</form>

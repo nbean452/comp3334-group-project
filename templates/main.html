@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="../static/css/main.css">
+    <!-- <link rel="stylesheet" href="../static/css/indexFinal.css"> -->
+    <link rel="stylesheet" href="../static/css/colors.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>{{current_user.username}}'s page</title>
 </head>
@@ -33,7 +36,7 @@
     </form>
     -->
 
-    
+
     <!-- this <a> tag below is used to credit the icon owner -->
     <!--
     <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
@@ -72,22 +75,28 @@
 
     <ul>
         <li><a href="{{url_for('index')}}">Home</a></li>
-        <li><a role="link" aria-disabled="true" class="active" href="">Profile</a></li>
+        <li class="active"><a role="link" aria-disabled="true" href="">Profile</a></li>
         <li><a href="{{url_for('logout')}}">Log Out</a></li>
     </ul>
 
-    
 
-    <br><br><br><br><br><br><br>  
 
-    <h1 id="welcome">Welcome, {{user.username}}</h1>
+    <br><br><br><br><br><br><br>
+
+    <h1 class="beautiful-text large">Welcome, {{user.username}}</h1>
     <div class="profile-parent">
         <div class="vertical-flex">
-            <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
+            <img class="profile-picture"
+                src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp"
+                alt="profile picture">
         </div>
         <div class="profile-info">
-            <h3 style="font-size: 22pt; color: white;">{{user.username}}</h3>
-            <h4 style="font-size: 16pt; color: white;">Balance: ${{user.balance}}</h4>
+            <h3>{{user.username}}</h3>
+            <!-- <h4>Balance: ${{user.balance}}</h4> -->
+            <div class="price">
+                <img class="coin-item" src="/static/img/coin.png" alt="">
+                <h4>{{user.balance}}</h4>
+            </div>
 
             <form action="/topup" method="POST">
                 <label for="topup-amount">Top-up amount</label>
@@ -97,38 +106,42 @@
             </form>
         </div>
     </div>
-    
-    <br><br><br><br><br><br>  
+
+    <br><br><br><br><br><br>
     <!--upload section-->
     <div class="upload-div">
-        <h2 style="color: white;">Upload NFT</h2> 
+        <h2>Upload NFT</h2>
         <form action="/main/upload" enctype="multipart/form-data" method="POST">
-            <label for="picname">Picture Name: </label>
+            <label for="picname">Picture Name: </label><br>
             <input type="text" name="picname" required placeholder="please enter a name here..."> <br>
-            <label for="price">Art Price: </label>
+            <label for="price">Art Price: </label><br>
             <input type="number" required name="price" placeholder="1000"> <br>
             <input type="file" name="pic" accept="image/png, image/jpeg">
             <br>
             <input type="submit" value="Upload NFT">
         </form>
     </div>
-    
+
     <br><br><br><br>
     <h1>My Collection</h1>
-    <br><br><br><br> 
+    <br><br><br><br>
 
     <div class="img-holder">
         {% for i in range(0,length) %}
-        <div class="NFT-item">  
+        <div class="NFT-item">
             <img src="data:image/jpg;base64,{{images[i]}}" alt="Listed NFT 1">
-            <h3>{{user.owned_arts[i].name}}</h3>
+            <h3 class="beautiful-text">{{user.owned_arts[i].name}}</h3>
+            <hr>
             <h4>Owned by: {{user.username}}</h4>
-            <h4>${{user.owned_arts[i].price}}</h4>
+            <div class="price">
+                <img class="coin-item" src="/static/img/coin.png" alt="">
+                <h4>{{user.owned_arts[i].price}}</h4>
+            </div>
 
             <form action="/edit-art/{{user.owned_arts[i].id}}" method="POST">
-                <label for="picname" style="color: black;">Picture Name:</label>
+                <label for="picname">Picture Name:</label>
                 <input type="text" name="picname" required value="{{user.owned_arts[i].name}}"><br>
-                <label for="price" style=" color: black">Art Price</label>
+                <label for="price">Art Price</label>
                 <input type="number" required name="price" value="{{user.owned_arts[i].price}}">
                 <input type="submit" value="Change" style=" width: 100%;">
             </form>
@@ -136,7 +149,7 @@
         {%endfor%}
     </div>
 
-        
+
 
 </body>
 

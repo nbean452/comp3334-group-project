@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/art-details.css">
+    <link rel="stylesheet" href="../static/css/colors.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>{{art_data.name}} Details</title>
 </head>
@@ -64,19 +65,30 @@
     -->
 
     <ul>
-        <li><a class="active" role="link" aria-disabled="true">Home</a></li>
+        <li><a href="{{url_for('index')}}">Home</a></li>
         <li><a href="{{url_for('main')}}">Profile</a></li>
         <li><a href="{{url_for('logout')}}">Logout</a></li>
+        <li>
+            <div class="balance">
+                <img id="coin-top" src="/static/img/coin.png" alt="">
+                <h2>{{current_user.balance}}</h2>
+
+            </div>
+        </li>
     </ul>
 
     <div class="NFT-card">
         <div class="img-holder">
             <img src="data:image/jpg;base64,{{image}}">
         </div>
-        <h3>{{art_data.name}}</h3>
-        <div >
-            <h4> ${{art_data.price}}</h4>
-            
+        <h3 class="beautiful-text">{{art_data.name}}</h3>
+        <hr>
+        <div class="NFT-item">
+            <div class="price">
+                <img class="coin-item" src="/static/img/coin.png" alt="">
+                <h4>{{art_data.price}}</h4>
+            </div>
+
             <p>Owner: {{art_data.owner[0].username}}</p>
             <p>Creator: {{art_data.creator[0].username}}</p>
             <p>Created on: {{art_data.creationdate.strftime("%b %d, %Y %H:%M:%S")}}</p>
@@ -105,11 +117,18 @@
         {%endif%}
         {%for info in transaction_info%}
         <div class="one-transaction">
-            <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
-            <p>seller: {{info[0].username}}</p>
-            <p>buyer: {{info[1].username}}</p>
-            <p>price: {{info[2]}}</p>
-            <p>date: {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
+            <img class="profile-picture"
+                src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp"
+                alt="profile picture">
+            <p>Seller: {{info[0].username}}</p>
+            <p>Buyer: {{info[1].username}}</p>
+            <!-- <p>Bought For {{info[2]}}</p> -->
+            <div class="price">
+                <p>Bought for</p>
+                <img class="coin-item" src="/static/img/coin.png" alt="" style="margin-left: 2px;">
+                <p>{{info[2]}}</p>
+            </div>
+            <p>Date: {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
         </div>
         {%endfor%}
     </div>

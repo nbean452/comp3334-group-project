@@ -1,129 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&family=Ubuntu:ital,wght@0,500;0,700;1,700&display=swap');
 
-*{
-    font-family: 'Trebuchet MS', sans-serif;
+* {
+  /* font-family: 'Trebuchet MS', sans-serif; */
+  /* font-family: 'Ubuntu', sans-serif; */
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  box-sizing: border-box;
 }
 
-body{
-    background-color: #282828;
+body {
+  /* background-color: rgba(var(--main_color), 1); */
+  margin: 0;
+  /* background: linear-gradient(50deg, #4612aa, #590cca, #ad20bf, #d25ea3, #d783ad, #db95bb, #daa1c4); */
+  background: linear-gradient(50deg, rgba(var(--main_color), 0.6), rgba(var(--second_color), 0.6), rgba(var(--third_color), 0.6), rgba(var(--fourth_color), 0.6));
+  background-size: 600% 600%;
+  background-position: 0% 0%;
+  animation: background-animation 4s ease-in-out infinite;
+}
+
+@keyframes background-animation {
+  0% {
+    background-position: 0% 51%
+  }
+
+  50% {
+    background-position: 100% 50%
+  }
+
+  100% {
+    background-position: 0% 51%
+  }
+
 }
 
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding-top: 1.5%;
-    padding-bottom: 1.5%;
-    overflow: hidden;
-    background-color: #3500D3;
-  }
+  list-style-type: none;
+  margin: 0;
+  overflow: hidden;
+  background-color: rgba(var(--third_color), 0.6);
+  backdrop-filter: blur(15px);
+  font-weight: 700;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  /* padding-top: 1%; */
+  /* padding-bottom: 1%; */
+  /* border-radius: 10px; */
+}
 
-li{
-    font-size: 18px;
-    float: left;
+li:hover {
+  background-color: rgba(var(--fourth_color), 1);
+  transition: all 0.2s ease-in-out;
+}
+
+li {
+  font-size: 18px;
+  float: left;
+  /* border-radius: 4px; */
+  /* margin: 0px 10px 0px 10px; */
+  padding: 0px 10px 0px 10px;
 }
 
 li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-  }
-  
-  li a:hover {
-    color: black;
-  }
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
 
-  .active{
-      background-color: #190061;
-      border-radius: 4px;
-  }
+li a:hover {
+  color: white;
+}
 
-  h1, h2{
-      text-align: center;
-      color: white;
-  }
+.active {
+  background-color: rgba(var(--fourth_color), 1);
+  /* border-radius: 4px; */
+}
 
-  h1{
-    font-size: 72pt;
-  }
+h1,
+h2 {
+  text-align: center;
+  color: white;
+}
 
-  h2{
-    font-size: 24pt;
-  }
+h1 {
+  font-size: 72pt;
+}
 
-  .img-holder{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    background-color: #3500D3;
-    align-self: center;
-    margin-left: 10%;
-    margin-right: 10%;
+h2 {
+  font-size: 24pt;
+}
 
-    padding-top: 30px;
-    padding-bottom: 30px;
+.img-holder {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background-color: rgba(var(--main_color), 1);
+  backdrop-filter: blur(10px);
+  align-self: center;
+  margin-left: 10%;
+  margin-right: 10%;
 
-    align-items: center;
-    justify-content: center;
+  padding-top: 30px;
+  padding-bottom: 30px;
 
-    border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 30px;
+  filter: drop-shadow(0 0 0.3rem black);
 
 
-  }
 
-.NFT-item{
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
+}
 
-    border-radius: 25px;
+.NFT-item {
+  padding: 20px;
 
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-bottom: 20px;
-    min-height: 550px;
-    
-    background-color: white;
-    filter: drop-shadow(0 0 0.3rem black);
+  border-radius: 25px;
 
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  height: fit-content;
+
+  background-color: white;
+  /* filter: drop-shadow(0 0 0.3rem black); */
+
+  border: gainsboro 2px solid;
+
+}
+
+.NFT-item * {
+  color: rgb(var(--third_color));
+}
+
+#coin-top {
+  max-width: 48px;
+  max-height: 48px;
+  border: none;
+  pointer-events: none;
+}
+
+.coin-item {
+  max-width: 20px;
+  max-height: 20px;
+  border: none;
 }
 
 img {
-    width: 300px;
-    height: 300px;
+  border-radius: 5px;
 }
 
-.hexagon {
-    position: relative;
-    width: 90px; 
-    height: 51.96px;
-    background-color: #ffffff;
-    margin: 25.98px 0;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .hexagon:before,
-  .hexagon:after {
-    content: "";
-    position: absolute;
-    width: 0;
-    border-left: 45px solid transparent;
-    border-right: 45px solid transparent;
-  }
-  
-  .hexagon:before {
-    bottom: 100%;
-    border-bottom: 25.98px solid #ffffff;
-  }
-  
-  .hexagon:after {
-    top: 100%;
-    width: 0;
-    border-top: 25.98px solid #ffffff;
-  }
+.price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
 
-  .error-msg {
-    color: red;
+.balance {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 20px;
+  padding-top: 2.5px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.beautiful-text {
+  background: linear-gradient(50deg, var(--text_one), var(--text_two), var(--text_three), var(--text_four), var(--text_five), var(--text_six));
+  /* background-image: linear-gradient(45deg, rgb(var(--fourth_color)), rgb(var(--main_color)), rgb(var(--fourth_color))); */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+  -webkit-text-fill-color: transparent;
+  /* background-size: 100%; */
+  background-repeat: repeat;
+  background-size: 600% 600%;
+  background-position: 0% 0%;
+  animation: background-animation 10s ease-in-out infinite;
+}
+
+img {
+  width: 300px;
+  height: 300px;
+  border: gray 2px solid;
+
+}
+
+.logo-holder {
+  margin: 50px auto 50px auto;
+  width: fit-content;
+}
+
+.logo {
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(var(--fourth_color), 0.6);
+  backdrop-filter: blur(10px);
+}
+
+/* .hexagon {
+  position: relative;
+  width: 90px;
+  height: 51.96px;
+  background-color: #ffffff;
+  margin: 25.98px 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hexagon:before,
+.hexagon:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  border-left: 45px solid transparent;
+  border-right: 45px solid transparent;
+}
+
+.hexagon:before {
+  bottom: 100%;
+  border-bottom: 25.98px solid #ffffff;
+}
+
+.hexagon:after {
+  top: 100%;
+  width: 0;
+  border-top: 25.98px solid #ffffff;
+} */
+
+.error-msg {
+  color: red;
 }

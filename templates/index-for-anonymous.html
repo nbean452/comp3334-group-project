@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/indexFinal.css">
+    <link rel="stylesheet" href="../static/css/colors.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>Need4Token Index</title>
 </head>
@@ -40,20 +41,24 @@
 
 
     <ul>
-        <li><a class="active" role="link" aria-disabled="true">Home</a></li>
-        <li><a href="{{url_for('main')}}">Profile</a></li>
+        <li class="active"><a role="link" aria-disabled="true">Home</a></li>
         <li><a href="{{url_for('login')}}">Login</a></li>
         <li><a href="{{url_for('register')}}">Register</a></li>
     </ul>
 
     <br><br><br>
-    <h1>Welcome to Need4Token!</h1>
+    <h1>Welcome to</h1>
+    <h1 class="beautiful-text">Need4Token</h1>
     <h2>Track on NFT trading</h2>
 
-    <br><br><br><br><br><br><br><br><br><br>
+    <!-- <br><br><br><br><br><br><br><br><br><br>
     <div class="hexagon"></div>
 
-    <br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br> -->
+
+    <div class="logo-holder">
+        <img class="logo" src="/static/img/Need4Token.png" alt="">
+    </div>
 
     <h2>Featured Collection</h2>
     <br><br>
@@ -62,10 +67,15 @@
         {% for i in range(0, length) %}
         <div class="NFT-item">
             <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}" class=""></a>
-            <h3>{{art_data[i].name}}</h3>
-            <h4>Owned by: {{art_data[i].owner[0].username}}</h4>
-            <h4>created on: {{art_data[i].creationdate}}</h4>
-            <h4>${{art_data[i].price}}</h4>
+            <h3 class="beautiful-text">{{art_data[i].name}}</h3>
+            <hr>
+            <h4>Owner: {{art_data[i].owner[0].username}}</h4>
+            <h4>created on: {{art_data[i].creationdate.strftime("%B %d %Y")}}</h4>
+            <div class="price">
+                <img class="coin-item" src="/static/img/coin.png" alt="">
+                <h4>{{art_data[i].price}}</h4>
+
+            </div>
         </div>
         {%endfor%}
     </div>

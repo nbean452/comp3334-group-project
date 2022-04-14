@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="stylesheet" href="/static/css/login.css">
+    <link rel="stylesheet" href="/static/css/colors.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>Need4Token Register</title>
 </head>
@@ -42,7 +43,7 @@
         <div class="divVertInside">
 
             <p><a href="{{url_for('index')}}"> Back to Home</a></p>
-            
+
             <br>
             <h1>Sign Up</h1>
 
@@ -76,7 +77,7 @@
                 {%for info in msg%}
                 <p>{{info}}</p>
                 {%endfor%}
-                
+
             </form>
 
         </div>
@@ -85,11 +86,15 @@
     <!-- left Side of screen-->
     <br><br><br><br><br><br>
     <h1>
-        Trade and Collect NFTs safely with (NFT)
-    </h1> 
+        Trade and Collect NFTs safely with
+    </h1>
+    <h1 class="beautiful-text large">Need4Token</h1>
 
-    <br><br><br><br><br><br><br>
-    <div class="hexagon"></div>
+    <div class="logo-holder">
+        <img class="logo" src="/static/img/Need4Token.png" alt="">
+    </div>
+    <!-- <br><br><br><br><br><br><br>
+    <div class="hexagon"></div> -->
 </body>
 
 </html>

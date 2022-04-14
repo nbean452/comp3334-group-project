@@ -1,0 +1,20 @@
+:root {
+    --main_color: 228, 253, 225;
+    --second_color: 2, 128, 144;
+    --third_color: 69, 105, 144;
+    --fourth_color: 17, 75, 95;
+    --text_one: #4612aa;
+    --text_two: #590cca;
+    --text_three: #d25ea3;
+    --text_four: #d783ad;
+    --text_five: #db95bb;
+    --text_six: #daa1c4;
+}
+
+/* background: linear-gradient(50deg, #4612aa, #590cca, #ad20bf, #d25ea3, #d783ad, #db95bb, #daa1c4); */
+
+
+/* White (#FCF6F5FF), Pink Lady (#EDC2D8FF) and Sky Blue (#8ABAD3FF) */
+
+/* White (#FCF6F5FF), Vanilla Custard (#F0E1B9FF), Goldfinch (#F3DB74FF) and Scarlet Sage (#A13941FF) */
+/* Deep Blue (#2460A7FF), Northern Sky (#85B3D1FF), Baby Blue (#B3C7D6FF) and Coffee (#D9B48FFF) */
