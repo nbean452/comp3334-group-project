@@ -173,8 +173,10 @@ class ResetPasswordForm(FlaskForm):
 @app.route('/')
 def index():
     images = Art.query.all()
-    if not images:
+    if  (not images and not current_user.is_authenticated):
         return render_template('index-for-anonymous.html', length=0)
+    elif (not images and current_user.is_authenticated):
+        return render_template('index-for-user.html', length=0)
     return_images = []
     art_data = []
     for image in images:

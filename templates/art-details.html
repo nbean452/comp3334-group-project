@@ -118,7 +118,7 @@
     <h2>Past Transactions</h2>
     <div class="past-transaction">
         {%if not transaction_info%}
-        <p>No transactions yet!</p>
+        <p style="color:rgb(var(--main_color));">No transactions yet!</p>
         {%endif%}
         {%for info in transaction_info%}
         <div class="one-transaction">
