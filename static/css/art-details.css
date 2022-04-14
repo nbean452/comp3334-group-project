@@ -205,7 +205,7 @@ img {
 .past-transaction {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   background-color: rgb(var(--main_color));
   margin-left: 10%;
   margin-right: 10%;
