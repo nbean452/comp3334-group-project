@@ -100,12 +100,12 @@
     <!--past transaction-->
     <h2>Past Transactions</h2>
     <div class="past-transaction">
-        <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
         {%if not transaction_info%}
         <p>No transactions yet!</p>
         {%endif%}
         {%for info in transaction_info%}
-        <div class="colored">
+        <div class="one-transaction">
+            <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
             <p>seller: {{info[0].username}}</p>
             <p>buyer: {{info[1].username}}</p>
             <p>price: {{info[2]}}</p>
