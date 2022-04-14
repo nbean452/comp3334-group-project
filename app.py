@@ -197,11 +197,11 @@ def login():
                 login_user(user)
                 return redirect(url_for('main'))
             else:
-                msg = "Username / Password is incorrect."
-                return render_template('login.html', form=form, msg=msg)
+                flash("Username/Password is incorrect")
+                return render_template('login.html', form=form)
         else:
-            msg = "Username / Password is incorrect."
-            return render_template('login.html', form=form, msg=msg)
+            flash("Username/Password is incorrect")
+            return render_template('login.html', form=form)
     return render_template('login.html', form=form)
 
 @ app.route('/logout', methods=['GET', 'POST'])
@@ -251,9 +251,14 @@ def main():
 def buy(art_id):
     password = request.form.get('password')
     if not bcrypt.check_password_hash(current_user.password, password):
-        return "wrong password!", 200
+        flash("Invalid password!")
+        return redirect('/art/'+str(art_id))
     art = Art.query.filter_by(id=art_id).first()
-    commision = int(art.price * 0.05)
+
+    if art.creator[0].id == current_user.id:
+        commision = 0
+    else:
+        commision = int(art.price * 0.05)
     net_amount = art.price - commision
     # current user loses money
     current_user.balance -= art.price

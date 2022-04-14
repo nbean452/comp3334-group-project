@@ -10,6 +10,7 @@
     <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
     <!-- <link rel="icon" href="/static/img/time.png" type="image/x-icon"> -->
     <title>Need4Token Login</title>
+    <script src="/static/js/show_password.js"></script>
 </head>
 
 <body>
@@ -57,7 +58,9 @@
 
                 <label for="password">Password</label><br>
                 <!-- <input type="text" id="Password" name="Password" placeholder="Please enter 8-20 characters" size="40"><br> -->
-                {{form.password}} <br><br>
+                {{form.password}} <br>
+                <input type="checkbox" onclick="showPassword()" name="show_password">
+                <label for="show_password">Show password</label><br><br>
 
                 {{form.recaptcha()}}<br>
 
@@ -68,9 +71,8 @@
                 <a href="{{url_for('reset_request')}}"> Forgot password? </a> <br>
 
                 <br>
-                {%for info in msg%}
-                <p>{{info}}</p>
-                {%endfor%}
+                {% set msg=get_flashed_messages() %}
+                <p style="color: red;">{{ msg[-1] }}</p>
 
             </form>
 

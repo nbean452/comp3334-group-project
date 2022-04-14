@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../static/css/colors.css">
     <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
     <!-- <link rel="icon" href="/static/img/time.png" type="image/x-icon"> -->
+    <script src="/static/js/show_password.js"></script>
     <title>{{art_data.name}} Details</title>
 </head>
 
@@ -99,8 +100,11 @@
             <a role="link" aria-disabled="true" title="Not enough money!" class="no-buy">Not enough money!</a>
             {%else%}
             <form action="/buy/{{art_data.id}}" method="POST">
-
+                {% set msg=get_flashed_messages() %}
+                <p style="color: red;">{{ msg[-1] }}</p>
                 {{form.password}}<br>
+                <input type="checkbox" onclick="showPassword()" name="show_password">
+                <label for="show_password">Show password</label><br><br>
                 {{form.submit}}
 
             </form>

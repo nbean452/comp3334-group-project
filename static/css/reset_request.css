@@ -1,6 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&family=Ubuntu:ital,wght@0,500;0,700;1,700&display=swap');
+
 * {
+    /* font-family: 'Trebuchet MS', sans-serif; */
+    /* font-family: 'Ubuntu', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    box-sizing: border-box;
     color: rgb(var(--second_color));
 }
+
 
 h2 {
     text-align: center;
@@ -9,7 +17,6 @@ h2 {
 body {
     background-color: rgb(var(--second_color));
     /* background-color: #282828; */
-    font-family: 'Trebuchet MS', sans-serif;
 }
 
 .form-group {

@@ -4,6 +4,7 @@
     <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
 
     <title>Reset Password</title>
+    <script src="/static/js/show_password.js"></script>
 </head>
 
 <form method="POST" action="">
@@ -29,11 +30,13 @@
             <label for="password_confirm">Confirm Password</label><br>
 
             <!-- {{ form.password_confirm.label(class="form-control-label") }} -->
-            {{ form.password_confirm(class="form-control form-control-lg") }}<br><br>
-            {{form.recaptcha()}}
+            {{ form.password_confirm(class="form-control form-control-lg") }}<br>
+            <input type="checkbox" onclick="showPasswords()" name="show_password">
+            <label for="show_password">Show passwords</label><br><br>
+            {{form.recaptcha()}} <br>
             {% endif %}
         </div>
-        <br>
+        <br><br>
         {{ form.submit(class="btn btn-outline-info") }}
     </fieldset>
 </form>

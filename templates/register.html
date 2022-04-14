@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/static/css/colors.css">
     <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
     <title>Need4Token Register</title>
+    <script src="/static/js/show_password.js"></script>
 </head>
 
 <body>
@@ -50,6 +51,9 @@
             {% for field, errors in form.errors.items() %}
             <p class="error-msg">{{ ', '.join(errors) }}</p>
             {% endfor %}
+            {%for info in msg%}
+            <p style="color: red;">{{info}}</p>
+            {%endfor%}
             <form method="POST" action="">
                 {{form.hidden_tag()}}
                 <label for="email">Email</label><br>
@@ -67,6 +71,9 @@
                 <label for="password_confirm">Type your password again</label><br>
                 {{form.password_confirm}} <br><br>
 
+                <input type="checkbox" onclick="showPasswords()" name="show_password">
+                <label for="show_password">Show passwords</label><br><br>
+
                 {{form.recaptcha()}}<br>
 
                 {{form.submit}}
@@ -74,9 +81,6 @@
                 <!-- <input type="submit" value="Sign Up"> -->
                 <p> Already have an account? <a href="{{url_for('login')}}"> Log in</a></p>
                 <br>
-                {%for info in msg%}
-                <p>{{info}}</p>
-                {%endfor%}
 
             </form>
 
