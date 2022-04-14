@@ -64,6 +64,8 @@ li a {
     align-items: center;
     justify-content: center;
 
+    border-radius: 10px;
+
   }
 
 .NFT-item{
@@ -78,6 +80,10 @@ li a {
     min-height: fit-content;
     background-color: white;
     color: black;
+
+    border-radius: 25px;
+    filter: drop-shadow(0 0 0.3rem black);
+
 
 }
 
@@ -99,6 +105,8 @@ img {
 
     align-items: center;
     justify-content: center;
+
+    border-radius: 10px;
 }
 
 .profile-picture{
@@ -141,7 +149,8 @@ input[type=submit] {
 }
 
 input[type=text],
-  input[type=password]{
+  input[type=password],
+  input[type=number]{
     background-color: #282828;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -154,7 +163,8 @@ label{
     color: white;
 }
 
-input[type=submit] {
+input[type=submit],
+input[type=file] {
     width: 25%;
     background-color: #240090;
     color: white;
@@ -162,13 +172,17 @@ input[type=submit] {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    margin: 10px;
   }
 
   .upload-div{
-      background-color:#3500D3;
-      margin-left: 10%;
-      margin-right: 10%;
-      height: fit-content;
+      background-color:#190061;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      padding: 20px;
+      border-radius: 10px;
+    
 
 
   }

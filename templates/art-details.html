@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="../static/css/art-details.css">
     <link rel="icon" href="/static/img/time.png" type="image/x-icon">
     <title>{{art_data.name}} Details</title>
 </head>
 
 <body>
+    <!--
     <div class="navbar">
         <ol>
             <li><a href="{{url_for('index')}}">Home</a></li>
@@ -60,6 +61,62 @@
         </div>
 
     </div>
+    -->
+
+    <ul>
+        <li><a class="active" role="link" aria-disabled="true">Home</a></li>
+        <li><a href="{{url_for('main')}}">Profile</a></li>
+        <li><a href="{{url_for('logout')}}">Logout</a></li>
+    </ul>
+
+    <div class="NFT-card">
+        <div class="img-holder">
+            <img src="data:image/jpg;base64,{{image}}">
+        </div>
+        <h3>{{art_data.name}}</h3>
+        <div >
+            <h4> ${{art_data.price}}</h4>
+            
+            <p>Owner: {{art_data.owner[0].username}}</p>
+            <p>Creator: {{art_data.creator[0].username}}</p>
+            <p>Created on: {{art_data.creationdate.strftime("%b %d, %Y %H:%M:%S")}}</p>
+            {%if art_data.owner[0].id == current_user.id %}
+            <a role="link" aria-disabled="true" title="You own this art!" class="not-allowed">Buy</a>
+            {%elif art_data.price > current_user.balance%}
+            <a role="link" aria-disabled="true" title="Not enough money!" class="no-buy">Not enough money!</a>
+            {%else%}
+            <form action="/buy/{{art_data.id}}" method="POST">
+
+                {{form.password}}<br>
+                {{form.submit}}
+
+            </form>
+            {%endif%}
+        </div>
+
+    </div>
+
+    <br><br><br><br>
+    <!--past transaction-->
+    <h2>Past Transactions</h2>
+    <div class="past-transaction">
+        <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
+        {%if not transaction_info%}
+        <p>No transactions yet!</p>
+        {%endif%}
+        {%for info in transaction_info%}
+        <div class="colored">
+            <p>seller: {{info[0].username}}</p>
+            <p>buyer: {{info[1].username}}</p>
+            <p>price: {{info[2]}}</p>
+            <p>date: {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
+        </div>
+        {%endfor%}
+    </div>
+
+
+
+
 </body>
 
 </html>

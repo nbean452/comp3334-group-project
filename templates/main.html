@@ -86,14 +86,14 @@
             <img class="profile-picture" src="https://static01.nyt.com/images/2021/03/12/arts/11nft-auction-cryptopunks-print/11nft-auction-cryptopunks-print-jumbo.jpg?quality=75&auto=webp" alt="profile picture">
         </div>
         <div class="profile-info">
-            <h3>{{user.username}}</h3>
-            <h4>Balance: ${{user.balance}}</h4>
+            <h3 style="font-size: 22pt; color: white;">{{user.username}}</h3>
+            <h4 style="font-size: 16pt; color: white;">Balance: ${{user.balance}}</h4>
 
             <form action="/topup" method="POST">
-                <label for="topup-amount">topup amount</label>
+                <label for="topup-amount">Top-up amount</label>
                 <input type="number" name="topup-amount" required placeholder="10">
                 <br>
-                <input type="submit" value="topup">
+                <input type="submit" value="Top-up" style="width: 40%;">
             </form>
         </div>
     </div>
@@ -101,11 +101,12 @@
     <br><br><br><br><br><br>  
     <!--upload section-->
     <div class="upload-div">
+        <h2 style="color: white;">Upload NFT</h2> 
         <form action="/main/upload" enctype="multipart/form-data" method="POST">
-            <label for="picname">Picture Name</label>
-            <input type="text" name="picname" required placeholder="please enter a name here...">
-            <label for="price">Art Price</label>
-            <input type="number" required name="price" placeholder="1000">
+            <label for="picname">Picture Name: </label>
+            <input type="text" name="picname" required placeholder="please enter a name here..."> <br>
+            <label for="price">Art Price: </label>
+            <input type="number" required name="price" placeholder="1000"> <br>
             <input type="file" name="pic" accept="image/png, image/jpeg">
             <br>
             <input type="submit" value="upload a file">
@@ -126,10 +127,10 @@
 
             <form action="/edit-art/{{user.owned_arts[i].id}}" method="POST">
                 <label for="picname" style="color: black;">Picture Name:</label>
-                <input type="text" name="picname" required value="{{user.owned_arts[i].name}}">
-                <label for="price">Art Price</label>
+                <input type="text" name="picname" required value="{{user.owned_arts[i].name}}"><br>
+                <label for="price" style=" color: black">Art Price</label>
                 <input type="number" required name="price" value="{{user.owned_arts[i].price}}">
-                <input type="submit" value="Done">
+                <input type="submit" value="Change" style=" width: 100%;">
             </form>
         </div>
         {%endfor%}
