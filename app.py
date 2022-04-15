@@ -28,8 +28,8 @@ login_manager.login_view = "login"
 
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'need4token@gmail.com'
-app.config['MAIL_PASSWORD'] = 'nftnft123'
+app.config['MAIL_USERNAME'] = 'artoverflowstore3334@gmail.com'
+app.config['MAIL_PASSWORD'] = 'artoverstore1'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
@@ -69,7 +69,6 @@ class User(db.Model, UserMixin):
     created_arts = db.relationship(
         'Art', secondary=users_created_arts, backref='creator')
 
-
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(app.config['SECRET_KEY'])
         return s.dumps({'user_id': self.id})
@@ -105,7 +104,6 @@ class Transaction(db.Model):
     price = db.Column(db.Integer, default=0, nullable=False)
 
 
-
 class RegisterForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Username"})
@@ -115,14 +113,16 @@ class RegisterForm(FlaskForm):
         min=8, max=20)], render_kw={"placeholder": "Password"}, )
     password_confirm = PasswordField(validators=[InputRequired(), Length(
         min=8, max=20)], render_kw={"placeholder": "Enter password again"})
-    confirm=PasswordField()
+    confirm = PasswordField()
     recaptcha = RecaptchaField()
     submit = SubmitField("Register")
+
     def check_password(self, password, password_confirm):
-        if password.data!=password_confirm.data:
+        if password.data != password_confirm.data:
             raise ValidationError(
                 "Password is not the same! Please type again."
             )
+
     def validate_username(self, username):
         existing_user_username = User.query.filter_by(
             username=username.data).first()
@@ -130,11 +130,13 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 "That username already exists. Please choose a different one."
             )
+
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError(
                 "That email is taken. Please choose a different one.")
+
 
 class LoginForm(FlaskForm):
     username = StringField(validators=[InputRequired(), Length(
@@ -144,16 +146,18 @@ class LoginForm(FlaskForm):
     recaptcha = RecaptchaField()
     submit = SubmitField("Login")
 
+
 class AuthenticateForm(FlaskForm):
     password = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
-    submit = SubmitField("Buy")    
+    submit = SubmitField("Buy")
 
 
 class RequestResetForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Length(
         min=4, max=1000)], render_kw={"placeholder": "Email"})
     submit = SubmitField("Request Password Reset")
+
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user is None:
@@ -173,7 +177,7 @@ class ResetPasswordForm(FlaskForm):
 @app.route('/')
 def index():
     images = Art.query.all()
-    if  (not images and not current_user.is_authenticated):
+    if (not images and not current_user.is_authenticated):
         return render_template('index-for-anonymous.html', length=0)
     elif (not images and current_user.is_authenticated):
         return render_template('index-for-user.html', length=0)
@@ -206,22 +210,24 @@ def login():
             return render_template('login.html', form=form)
     return render_template('login.html', form=form)
 
+
 @ app.route('/logout', methods=['GET', 'POST'])
 @ login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
 @ app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    msg=[]
+    msg = []
     if form.validate_on_submit():
         if form.password.data == form.password_confirm.data and password_check(form.password.data):
             hashed_password = bcrypt.generate_password_hash(form.password.data)
             new_user = User(username=form.username.data,
-                        password=hashed_password, balance=0,
-                        email=form.email.data)
+                            password=hashed_password, balance=0,
+                            email=form.email.data)
             db.session.add(new_user)
             db.session.commit()
             return redirect((url_for('login')))
@@ -276,6 +282,7 @@ def buy(art_id):
     db.session.commit()
     return redirect(url_for('main'))
 
+
 @ app.route('/edit-art/<int:art_id>', methods=['POST'])
 @ login_required
 def edit_art(art_id):
@@ -308,6 +315,7 @@ def upload():
     db.session.commit()
     return redirect((url_for('main')))
 
+
 @ app.route('/topup', methods=['POST'])
 @ login_required
 def topup():
@@ -317,6 +325,7 @@ def topup():
     db.session.commit()
     return redirect(url_for('main'))
 
+
 def generate_users():
     db.session.add(User(username='nicho', password=bcrypt.generate_password_hash(
         '123123'), balance=100))
@@ -325,6 +334,7 @@ def generate_users():
     db.session.add(User(username='steve', password=bcrypt.generate_password_hash(
         '123123'), balance=100))
     db.session.commit()
+
 
 @ app.route('/art/<int:art_id>')
 @ login_required
@@ -342,25 +352,28 @@ def transactions(art_id):
         inner_array.append(transaction.price)
         inner_array.append(transaction.date)
         outer_array.append(inner_array)
-    return render_template("art-details.html", image=base64_image.decode("UTF-8"), 
-    art_data=art, transaction_info=outer_array, current_user=current_user,
-    form=form)
+    return render_template("art-details.html", image=base64_image.decode("UTF-8"),
+                           art_data=art, transaction_info=outer_array, current_user=current_user,
+                           form=form)
+
 
 def send_email(app, msg):
     with app.app_context():
         mail.send(msg)
 
+
 def send_reset_email(user):
     token = user.get_reset_token()
     msg = Message()
-    msg.subject = "Need4Token Password Reset"
-    msg.sender = 'need4token@gmail.com'
+    msg.subject = "Art Overflow Password Reset"
+    msg.sender = 'artoverflowstore3334@gmail.com'
     msg.recipients = [user.email]
     msg.body = f'''To reset your password, visit the following link:
 {url_for('reset_token', token=token, _external=True)}
 If you did not make this request then simply ignore this email and no changes will be made.
 '''
     Thread(target=send_email, args=(app, msg)).start()
+
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_request():
@@ -371,7 +384,8 @@ def reset_request():
         flash('An email has been sent with instructions to reset your password.', 'info')
         return redirect(url_for('login'))
     return render_template('reset_request.html', title='Reset Password', form=form)
-    
+
+
 def password_check(password):
     """
         8 characters length or more
@@ -384,11 +398,14 @@ def password_check(password):
     digit_error = re.search(r"\d", password) is None
     uppercase_error = re.search(r"[A-Z]", password) is None
     lowercase_error = re.search(r"[a-z]", password) is None
-    symbol_error = re.search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None
-    password_ok = not ( length_error or digit_error or uppercase_error or lowercase_error or symbol_error )
+    symbol_error = re.search(
+        r"[ !#$%&'()*+,-./[\\\]^_`{|}~"+r'"]', password) is None
+    password_ok = not (
+        length_error or digit_error or uppercase_error or lowercase_error or symbol_error)
     if password_ok:
         return True
     return False
+
 
 @app.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_token(token):
@@ -397,11 +414,11 @@ def reset_token(token):
         flash('That is an invalid or expired token', 'warning')
         return redirect(url_for('reset_request'))
     form = ResetPasswordForm()
-    msg=[]
+    msg = []
     if form.validate_on_submit():
         if form.password.data == form.password_confirm.data and password_check(form.password.data):
             hashed_password = bcrypt.generate_password_hash(
-            form.password.data).decode('utf-8')
+                form.password.data).decode('utf-8')
             user.password = hashed_password
             db.session.commit()
             flash('Your password has been updated! You are now able to log in', 'success')
@@ -409,12 +426,13 @@ def reset_token(token):
         else:
             if (form.password.data != form.password_confirm.data):
                 msg.append("The password doesn't match!")
-            
+
             if not (password_check(form.password.data)):
                 msg.append("The password is not strong enough!")
 
             return render_template('reset_token.html', title='Reset Password', form=form, msg=msg)
     return render_template('reset_token.html', title='Reset Password', form=form)
+
 
 if __name__ == '__main__':
     db.create_all()

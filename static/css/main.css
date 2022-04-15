@@ -91,7 +91,7 @@ h1#welcome {
 
 }
 
-.NFT-item {
+.Art-item {
     padding: 20px;
     margin-left: 10px;
     margin-right: 10px;
@@ -246,7 +246,7 @@ input[type=file] {
     margin: 10px 0px;
 }
 
-.NFT-item * {
+.Art-item * {
     color: rgb(var(--second_color));
 }
 

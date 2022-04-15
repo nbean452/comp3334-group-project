@@ -7,64 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/art-details.css">
     <link rel="stylesheet" href="../static/css/colors.css">
-    <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
+    <link rel="icon" href="/static/img/ArtOverflow.png" type="image/x-icon">
     <!-- <link rel="icon" href="/static/img/time.png" type="image/x-icon"> -->
     <script src="/static/js/show_password.js"></script>
     <title>{{art_data.name}} Details</title>
 </head>
 
 <body>
-    <!--
-    <div class="navbar">
-        <ol>
-            <li><a href="{{url_for('index')}}">Home</a></li>
-            <li><a href="{{url_for('main')}}">Profile</a></li>
-            <li><a href="{{url_for('logout')}}">Logout</a></li>
-        </ol>
-    </div>
-    <h1>Need4Token {{art_data.name}}</h1>
-    <div>
-        <div class="img-holder">
-            <img src="data:image/jpg;base64,{{image}}">
-        </div>
-        <div class="desc-holder">
-            <p>created on: {{art_data.creationdate.strftime("%b %d, %Y %H:%M:%S")}}</p>
-            <p>price: ${{art_data.price}}</p>
-
-
-            <p>owner: {{art_data.owner[0].username}}</p>
-            <p>creator: {{art_data.creator[0].username}}</p>
-            {%if art_data.owner[0].id == current_user.id %}
-            <a role="link" aria-disabled="true" title="You own this art!" class="not-allowed">Buy</a>
-            {%elif art_data.price > current_user.balance%}
-            <a role="link" aria-disabled="true" title="Not enough money!" class="no-buy">Not enough money!</a>
-            {%else%}
-            <form action="/buy/{{art_data.id}}" method="POST">
-
-                {{form.password}}
-                {{form.submit}}
-
-            </form>
-            {%endif%}
-        </div>
-
-        <div>
-            <h1>Past Transactions</h1>
-            {%if not transaction_info%}
-            <p>No transactions yet!</p>
-            {%endif%}
-            {%for info in transaction_info%}
-            <div class="colored">
-                <p>seller: {{info[0].username}}</p>
-                <p>buyer: {{info[1].username}}</p>
-                <p>price: {{info[2]}}</p>
-                <p>date: {{info[3].strftime("%b %d, %Y %H:%M:%S")}}</p>
-            </div>
-            {%endfor%}
-        </div>
-
-    </div>
-    -->
 
     <ul>
         <li><a href="{{url_for('index')}}">Home</a></li>
@@ -79,13 +28,13 @@
         </li>
     </ul>
 
-    <div class="NFT-card">
+    <div class="Art-card">
         <div class="img-holder">
             <img src="data:image/jpg;base64,{{image}}">
         </div>
         <h3 class="beautiful-text">{{art_data.name}}</h3>
         <hr>
-        <div class="NFT-item">
+        <div class="Art-item">
             <div class="price">
                 <img class="coin-item" src="/static/img/coin.png" alt="">
                 <h4>{{art_data.price}}</h4>

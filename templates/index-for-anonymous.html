@@ -7,38 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/indexFinal.css">
     <link rel="stylesheet" href="../static/css/colors.css">
-    <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
+    <link rel="icon" href="/static/img/ArtOverflow.png" type="image/x-icon">
     <!-- <link rel="icon" href="/static/img/time.png" type="image/x-icon"> -->
-    <title>Need4Token Home</title>
+    <title>Art Overflow Home</title>
 </head>
 
 <body>
-
-    <!--
-    <div class="navbar">
-        <ol>
-            <li><a role="link" aria-disabled="true" id="active">Home</a></li>
-            <li><a href="{{url_for('login')}}">Login</a></li>
-            <li><a href="{{url_for('register')}}">Register</a></li>
-        </ol>
-    </div>
-    <h1>Welcome to Need4Token!</h1>
-    <p>Track on NFT trading</p>
-    <div class="images-holder">
-        {% for i in range(0, length) %}
-        <div class="img-holder">
-            <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}"></a>
-            <div class="desc-holder">
-                <p class="art-desc">Owned by: {{art_data[i].owner[0].username}}</p>
-                <p class="art-desc">{{art_data[i].name}}</p>
-                <p class="art-desc">created on: {{art_data[i].creationdate}}</p>
-                <p class="art-desc">price: ${{art_data[i].price}}</p>
-                <a href="/buy/{{art_data[i].id}}">Buy</a>
-            </div>
-        </div>
-        {%endfor%}
-    </div>
-    -->
 
 
     <ul>
@@ -49,8 +23,8 @@
 
     <br><br><br>
     <h1>Welcome to</h1>
-    <h1 class="beautiful-text">Need4Token</h1>
-    <h2>Track on NFT trading</h2>
+    <h1 class="beautiful-text">Art Overflow</h1>
+    <h2>Track on Art trading</h2>
 
     <!-- <br><br><br><br><br><br><br><br><br><br>
     <div class="hexagon"></div>
@@ -58,7 +32,7 @@
     <br><br><br><br><br><br><br><br><br> -->
 
     <div class="logo-holder">
-        <img class="logo" src="/static/img/Need4Token.png" alt="">
+        <img class="logo" src="/static/img/ArtOverflow.png" alt="">
     </div>
 
     <h1>Featured Collections</h1>
@@ -66,7 +40,7 @@
 
     <div class="img-holder">
         {% for i in range(0, length) %}
-        <div class="NFT-item">
+        <div class="Art-item">
             <a href="/art/{{art_data[i].id}}"><img src="data:image/jpg;base64,{{images[i]}}" class=""></a>
             <h3 class="beautiful-text">{{art_data[i].name}}</h3>
             <hr>

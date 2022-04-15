@@ -118,7 +118,7 @@ h2 {
 
 }
 
-.NFT-item {
+.Art-item {
   padding: 20px;
 
   border-radius: 25px;
@@ -135,7 +135,7 @@ h2 {
 
 }
 
-.NFT-item * {
+.Art-item * {
   color: rgb(var(--third_color));
 }
 

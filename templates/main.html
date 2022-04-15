@@ -9,69 +9,12 @@
     <link rel="stylesheet" href="../static/css/main.css">
     <!-- <link rel="stylesheet" href="../static/css/indexFinal.css"> -->
     <link rel="stylesheet" href="../static/css/colors.css">
-    <link rel="icon" href="/static/img/Need4Token.png" type="image/x-icon">
+    <link rel="icon" href="/static/img/ArtOverflow.png" type="image/x-icon">
     <!-- <link rel="icon" href="/static/img/time.png" type="image/x-icon"> -->
     <title>{{current_user.username}}'s Profile Page</title>
 </head>
 
 <body>
-    <!--
-    <div class="navbar">
-        <ol>
-            <li><a href="{{url_for('index')}}">Home</a></li>
-            <li><a role="link" aria-disabled="true" id="active">Profile</a></li>
-            <li><a href="{{url_for('logout')}}">Logout</a></li>
-        </ol>
-    </div>
-    <h1>Welcome, {{user.username}}</h1>
-    <div class="flex">
-        <p>You are in user area!</p>
-        <p>Balance: ${{user.balance}}</p>
-
-    </div>
-    <form action="/topup" method="POST">
-        <label for="topup-amount">topup amount</label>
-        <input type="number" name="topup-amount" required placeholder="10">
-        <br>
-        <input type="submit" value="topup">
-    </form>
-    -->
-
-
-    <!-- this <a> tag below is used to credit the icon owner -->
-    <!--
-    <a href="https://www.flaticon.com/free-icons/calendar" title="calendar icons" style="position: fixed;bottom: 0;">
-        Calendar icons created by Freepik - Flaticon
-    </a>
-
-    <form action="/main/upload" enctype="multipart/form-data" method="POST">
-
-        <label for="picname">Picture Name</label>
-        <input type="text" name="picname" required placeholder="please enter a name here...">
-        <label for="price">Art Price</label>
-        <input type="number" required name="price" placeholder="1000">
-        <input type="file" name="pic" accept="image/png, image/jpeg">
-        <br>
-        <input type="submit" value="upload a file">
-
-    </form>
-
-    <div class="img-holder">
-        {% for i in range(0,length) %}
-        <div style="background-color: bisque; margin: 20px;">
-            <img src="data:image/jpg;base64,{{images[i]}}">
-            <p>Owner: {{user.username}}</p>
-            <form action="/edit-art/{{user.owned_arts[i].id}}" method="POST">
-                <label for="picname">Picture Name</label>
-                <input type="text" name="picname" required value="{{user.owned_arts[i].name}}">
-                <label for="price">Art Price</label>
-                <input type="number" required name="price" value="{{user.owned_arts[i].price}}">
-                <input type="submit" value="Done">
-            </form>
-        </div>
-        {%endfor%}
-    </div>
-    -->
 
 
     <ul>
@@ -111,7 +54,7 @@
     <br><br><br><br><br><br>
     <!--upload section-->
     <div class="upload-div">
-        <h2>Upload NFT</h2>
+        <h2>Upload Art</h2>
         <form action="/main/upload" enctype="multipart/form-data" method="POST">
             <label for="picname">Picture Name: </label><br>
             <input type="text" name="picname" required placeholder="please enter a name here..."> <br>
@@ -119,7 +62,7 @@
             <input type="number" required name="price" placeholder="1000"> <br>
             <input type="file" name="pic" accept="image/png, image/jpeg">
             <br>
-            <input type="submit" value="Upload NFT">
+            <input type="submit" value="Upload Art">
         </form>
     </div>
 
@@ -129,8 +72,8 @@
 
     <div class="img-holder">
         {% for i in range(0,length) %}
-        <div class="NFT-item">
-            <img src="data:image/jpg;base64,{{images[i]}}" alt="Listed NFT 1">
+        <div class="Art-item">
+            <img src="data:image/jpg;base64,{{images[i]}}" alt="Listed Art {{i+1}}">
             <h3 class="beautiful-text">{{user.owned_arts[i].name}}</h3>
             <hr>
             <h4>Owned by: {{user.username}}</h4>
