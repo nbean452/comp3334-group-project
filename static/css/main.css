@@ -230,7 +230,8 @@ input[type=number] {
 }
 
 input[type=text]::placeholder,
-input[type=number]::placeholder {
+input[type=number]::placeholder,
+input[type=password]::placeholder {
     color: rgb(var(--main_color));
 }
 

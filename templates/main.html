@@ -12,6 +12,7 @@
     <link rel="icon" href="/static/img/ArtOverflow.png" type="image/x-icon">
     <!-- <link rel="icon" href="/static/img/time.png" type="image/x-icon"> -->
     <title>{{current_user.username}}'s Profile Page</title>
+    <script src="/static/js/show_password.js"></script>
 </head>
 
 <body>
@@ -61,7 +62,20 @@
             <label for="price">Art Price: </label><br>
             <input type="number" required name="price" placeholder="1000"> <br>
             <input type="file" name="pic" accept="image/png, image/jpeg">
+            <!-- 
+                {% set msg=get_flashed_messages() %}
+                <p style="color: red;">{{ msg[-1] }}</p>
+                <input type="checkbox" onclick="showPassword()" name="show_password">
+                <label for="show_password">Show password</label><br><br>
+                </form>
+                 -->
+            {% set msg=get_flashed_messages() %}
+            <p style="color: red;">{{ msg[-1] }}</p>
+            <label for="password">Enter Password</label>
+            <input type="password" id="password" name="password" required placeholder="Enter password">
             <br>
+            <input type="checkbox" onclick="showPassword()" name="show_password">
+            <label for="show_password">Show password</label><br><br>
             <input type="submit" value="Upload Art">
         </form>
     </div>

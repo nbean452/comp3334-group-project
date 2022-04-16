@@ -299,6 +299,12 @@ def edit_art(art_id):
 @ app.route('/main/upload', methods=['POST'])
 @ login_required
 def upload():
+
+    password = request.form.get('password')
+    if not bcrypt.check_password_hash(current_user.password, password):
+        flash("Invalid password!")
+        return redirect('/main')
+
     pic = request.files['pic']
     if not pic:
         return 'Not Picture!', 400
