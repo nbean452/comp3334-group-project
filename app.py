@@ -156,6 +156,7 @@ class AuthenticateForm(FlaskForm):
 class RequestResetForm(FlaskForm):
     email = StringField(validators=[InputRequired(), Length(
         min=4, max=1000)], render_kw={"placeholder": "Email"})
+    recaptcha = RecaptchaField()
     submit = SubmitField("Request Password Reset")
 
     def validate_email(self, email):

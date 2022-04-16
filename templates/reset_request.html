@@ -14,6 +14,8 @@
             {{ form.email.label(class="form-control-label") }}
             {% if form.email.errors %}
             {{ form.email(class="form-control form-control-lg is-invalid") }}
+            {{ form.recaptcha() }}
+
             <div class="invalid-feedback">
                 {% for error in form.email.errors %}
                 <span>{{ error }}</span>
@@ -21,6 +23,8 @@
             </div>
             {% else %}
             {{ form.email(class="form-control form-control-lg") }}
+            {{ form.recaptcha() }}
+
             {% endif %}
         </div>
         {{ form.submit(class="btn btn-outline-info") }}
