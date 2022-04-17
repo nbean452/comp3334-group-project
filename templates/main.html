@@ -60,7 +60,7 @@
             <label for="picname">Picture Name: </label><br>
             <input type="text" name="picname" required placeholder="please enter a name here..."> <br>
             <label for="price">Art Price: </label><br>
-            <input type="number" required name="price" placeholder="1000"> <br>
+            <input type="number" required name="price" placeholder="1000" min="0"> <br>
             <input type="file" name="pic" accept="image/png, image/jpeg">
             <!-- 
                 {% set msg=get_flashed_messages() %}

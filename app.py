@@ -8,7 +8,6 @@ from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
 from datetime import datetime
-from werkzeug.utils import secure_filename
 import base64
 from flask_mail import Message, Mail
 import re
@@ -37,8 +36,8 @@ mail = Mail(app)
 
 app.config["SECRET_KEY"] = "mysecretkey"
 
-app.config["RECAPTCHA_PUBLIC_KEY"] = "6LeG92sfAAAAAHPv8LqZlNnf7l3rabzxPhAiT7Yg"
-app.config["RECAPTCHA_PRIVATE_KEY"] = "6LeG92sfAAAAAANViwBVfS7GHpc-cfuj2OazuSth"
+app.config["RECAPTCHA_PUBLIC_KEY"] = "6Lf5sH0fAAAAAGuFdK2FZqVletkPOkLzUwTl937b"
+app.config["RECAPTCHA_PRIVATE_KEY"] = "6Lf5sH0fAAAAAIF89siMC2c1oFcMs8rIdoak1KQw"
 
 
 @login_manager.user_loader
@@ -310,9 +309,8 @@ def upload():
         return 'Not Picture!', 400
     picname = request.form.get('picname')
     price = request.form.get('price')
-    filename = secure_filename(pic.filename)
     mimetype = pic.mimetype
-    if not filename or not mimetype:
+    if not mimetype:
         return 'Bad upload!', 400
     art = Art(img=pic.read(), name=picname, mimetype=mimetype, price=price)
     db.session.add(art)
@@ -331,16 +329,6 @@ def topup():
     user.balance += amount
     db.session.commit()
     return redirect(url_for('main'))
-
-
-def generate_users():
-    db.session.add(User(username='nicho', password=bcrypt.generate_password_hash(
-        '123123'), balance=100))
-    db.session.add(User(
-        username='john', password=bcrypt.generate_password_hash('123123'), balance=100))
-    db.session.add(User(username='steve', password=bcrypt.generate_password_hash(
-        '123123'), balance=100))
-    db.session.commit()
 
 
 @ app.route('/art/<int:art_id>')
