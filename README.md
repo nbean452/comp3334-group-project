@@ -31,4 +31,4 @@ This web application provides a platform for users to exchange their art (upload
 * mikecoa
 * nelsenhadi
 * banjibear
-* azamat
+* AzamatN
