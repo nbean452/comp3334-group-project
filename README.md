@@ -30,3 +30,5 @@ This web application provides a platform for users to exchange their art (upload
 * nicb112
 * mikecoa
 * nelsenhadi
+* banjibear
+* azamat
